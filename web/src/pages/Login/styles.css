@@ -1,0 +1,171 @@
+#page-login-container {
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+#page-login-container .container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#page-login-container .container aside {
+  background: var(--color-primary);
+  height: 80.2rem;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+#page-login-container .container aside div {
+  background-image: url("../../assets/images/login-background.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 58.4rem;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#page-login-container .container aside div h1 {
+  font: 700 7.0rem Archivo;
+  color: #fff;
+}
+
+#page-login-container .container aside div p {
+  max-width: 20rem;
+  color: var(--color-text-in-primary);
+}
+
+#page-login-container .container main { 
+  background: var(--color-background);
+  height: 80.2rem;
+}
+
+#page-login-container .container main form {
+  width: 100%;
+  margin: 20.0rem auto;
+  padding: 6.0rem;
+  margin-bottom: 0;
+}
+
+#page-login-container .container main form h2 {
+  font: 600 3.6rem Poppins;
+  color: var(--color-text-title);
+  margin-bottom: 2.0rem;
+}
+
+#page-login-container .container main form .input-container {
+  width: 100%;
+  position: relative;
+  margin-top: 1.2rem;
+}
+
+#page-login-container .container main form input {
+  height: 7.2rem;
+  padding: 0.6rem;
+  border-radius: 0.8rem;
+  border: 1px solid var(--color-line-in-white);
+  outline: none;
+  width: 100%;
+}
+
+
+#page-login-container .container main form .input-container:focus-within::before {
+  content: "";
+  width: 2px;
+  height: calc(100% - 1rem);
+  background: var(--color-primary);
+  position: absolute;
+}
+
+#page-login-container .container main form > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 6.0rem;
+  width: 100%;
+}
+
+#page-login-container .container main form div .remember-container {
+  display: flex;
+  flex-direction: row;
+}
+
+#page-login-container .container main form div .remember-container .remember-checkbox {
+  height: 1.6rem;
+  width: 1.6rem;
+}
+
+
+#page-login-container .container main form div .remember-container label {
+  margin-left: 0.6rem;
+  font: 400 1.4rem Poppins;
+  color: var(--color-text-complement);
+  cursor: pointer;
+}
+
+#page-login-container .container main form div a {
+  font: 400 1.4rem Poppins;
+  color: var(--color-text-complement);
+  text-decoration: none;
+}
+
+#page-login-container .container main form div a:hover {
+  text-decoration: underline;
+}
+
+#page-login-container .container main form .button {
+  cursor: pointer;
+  background: #DCDCE5;
+  width: 100%;
+  color: var(--color-button-text);
+  border: none;
+  height: 5.6rem;
+  border-radius: 0.8rem;
+  font: 700 1.6rem Poppins;
+  transition: all 0.2s;
+}
+
+#page-login-container .container main form .finished {
+  background: var(--color-secundary);
+  transition: all 0.2s;
+}
+
+#page-login-container .container main form .finished:hover {
+  background: var(--color-secundary-dark);
+}
+
+#page-login-container .container main footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  align-self: center;
+  padding-left: 7rem;
+  padding-right: 7rem;
+  padding-top: 0;
+}
+
+#page-login-container .container main footer p {
+  font: 400 1.6rem Poppins;
+  color: var(--color-text-base);
+}
+
+#page-login-container .container main footer p a {
+  color: var(--color-primary-dark);
+  font: 700 1.6rem Poppins;
+  transition: all 0.2s ease;
+}
+
+#page-login-container .container main footer p a:hover {
+  color: var(--color-primary)
+}
+
+#page-login-container .container main footer p img {
+  margin-left: 0.4rem;
+}
