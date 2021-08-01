@@ -1,10 +1,22 @@
-import React from "react"
+import React, { useState } from "react"
 
 import "./styles.css"
-import purpleHeartIcon from "../../assets/images/icons/purple-heart.svg"
 
+import purpleHeartIcon from "../../assets/images/icons/purple-heart.svg"
+import showPasswordIcon from "../../assets/images/icons/show-password.png"
+import hiddenPasswordIcon from "../../assets/images/icons/hidden-password.png"
 
 function Login() {
+  const [ showPassword, setShowPassword ] = useState(false)
+
+  function handleShowPassword() {
+    if(showPassword) {
+      setShowPassword(false)
+    } else {
+      setShowPassword(true)
+    }
+  }
+
   return (
     <div id="page-login-container">
       <div className="container">
@@ -22,12 +34,23 @@ function Login() {
               <input type="email" placeholder="E-mail" required />
             </div>
             <div className="input-container">
-              <input type="password" placeholder="Senha" required />
+              <input type={showPassword? "text":"password"} placeholder="Senha" required />
+              <button 
+                type="button" 
+                className="show-password" 
+                onClick={handleShowPassword}
+              > 
+                <img src={showPassword? hiddenPasswordIcon:showPasswordIcon} alt="Mostra senha" />
+              </button>
             </div>
 
             <div>
               <div className="remember-container">
-                <input className="remember-checkbox" type="checkbox" id="remember" defaultChecked />
+                <input 
+                  className="remember-checkbox" 
+                  type="checkbox" id="remember" 
+                  defaultChecked 
+                />
                 <label htmlFor="remember">Lembrar-me</label>
               </div>
 
