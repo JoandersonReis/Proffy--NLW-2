@@ -5,11 +5,13 @@ import Landing from "./pages/Landing"
 import TeacherList from "./pages/TeacherList"
 import TeacherForm from "./pages/TeacherForm"
 import Login from "./pages/Login"
+import Register from "./pages/Register"
 
 function Routes() {
   return (
     <BrowserRouter>
       <Route path="/" component={Login} exact />
+      <Route path="/register" component={Register} />
       <Route path="/home" component={Landing} />
       <Route path="/study" component={TeacherList} />
       <Route path="/give-classes" component={TeacherForm} />

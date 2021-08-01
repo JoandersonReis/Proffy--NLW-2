@@ -8,38 +8,6 @@
   width: 100%;
 }
 
-#page-login-container .container aside {
-  background: var(--color-primary);
-  height: 80.2rem;
-  width: 100vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
-#page-login-container .container aside div {
-  background-image: url("../../assets/images/login-background.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  height: 58.4rem;
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-#page-login-container .container aside div h1 {
-  font: 700 7.0rem Archivo;
-  color: #fff;
-}
-
-#page-login-container .container aside div p {
-  max-width: 20rem;
-  color: var(--color-text-in-primary);
-}
-
 #page-login-container .container main { 
   background: var(--color-background);
   height: 80.2rem;
@@ -105,6 +73,7 @@
 
 #page-login-container .container main form div .remember-container {
   display: flex;
+  align-items: center;
   flex-direction: row;
 }
 
@@ -195,11 +164,6 @@
     display: grid;
     grid-template-columns: repeat(2, 50%);
     max-width: 128rem;
-  }
-
-  #page-login-container .container aside {
-    width: 64rem;
-    height: 70rem;
   }
 
   #page-login-container .container main {

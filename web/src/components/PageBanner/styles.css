@@ -1,0 +1,38 @@
+#page-banner {
+  background: var(--color-primary);
+  height: 80.2rem;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+#page-banner div {
+  background-image: url("../../assets/images/login-background.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 58.4rem;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#page-banner div h1 {
+  font: 700 7.0rem Archivo;
+  color: #fff;
+}
+
+#page-banner div p {
+  max-width: 20rem;
+  color: var(--color-text-in-primary);
+}
+
+@media(min-width: 1200px) {
+  #page-banner {
+    width: 64rem;
+    height: 70rem;
+  }
+}

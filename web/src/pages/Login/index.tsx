@@ -1,10 +1,12 @@
 import React, { useState } from "react"
+import { Link } from "react-router-dom"
 
 import "./styles.css"
 
 import purpleHeartIcon from "../../assets/images/icons/purple-heart.svg"
 import showPasswordIcon from "../../assets/images/icons/show-password.png"
 import hiddenPasswordIcon from "../../assets/images/icons/hidden-password.png"
+import PageBanner from "../../components/PageBanner"
 
 function Login() {
   const [ showPassword, setShowPassword ] = useState(false)
@@ -20,13 +22,8 @@ function Login() {
   return (
     <div id="page-login-container">
       <div className="container">
-        <aside>
-          <div>
-            <h1>Proffy</h1>
-            <p>Sua plataforma de estudos online.</p>
-          </div>
-        </aside>
-        
+        <PageBanner />
+
         <main>
           <form>
             <h2>Fazer Login</h2>
@@ -63,7 +60,7 @@ function Login() {
           <footer>
             <p>
               Não tem conta?<br/>
-              <a href="">Cadastre-se</a>
+              <Link to="/register">Cadastre-se</Link>
             </p>
 
             <p>
