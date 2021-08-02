@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useHistory } from "react-router-dom"
 
 import PageBanner from "../../components/PageBanner"
 
@@ -7,6 +8,8 @@ import hiddenPasswordIcon from "../../assets/images/icons/hidden-password.png"
 import "./styles.css"
 
 function Register() {
+  const { push } = useHistory()
+
   const [ showPassword, setShowPassword ] = useState(false)
 
   function handleShowPassword() {
@@ -15,6 +18,10 @@ function Register() {
     } else {
       setShowPassword(true)
     }
+  }
+
+  function handleSubmitRegister() {
+    push("/finished-register")
   }
 
   return (
@@ -39,7 +46,7 @@ function Register() {
                 </button>
               </div>
 
-              <button type="submit" className="button">Concluir Cadastro</button>
+              <button type="submit" className="button" onClick={handleSubmitRegister}>Concluir Cadastro</button>
           </form>
         </main>
 

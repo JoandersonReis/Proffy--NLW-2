@@ -6,6 +6,7 @@ import TeacherList from "./pages/TeacherList"
 import TeacherForm from "./pages/TeacherForm"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
+import FinishedRegister from "./pages/FinishedRegister"
 
 function Routes() {
   return (
@@ -15,6 +16,7 @@ function Routes() {
       <Route path="/home" component={Landing} />
       <Route path="/study" component={TeacherList} />
       <Route path="/give-classes" component={TeacherForm} />
+      <Route path="/finished-register" component={FinishedRegister} />
     </BrowserRouter>
   )
 }

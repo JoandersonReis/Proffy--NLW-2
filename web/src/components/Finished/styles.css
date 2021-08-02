@@ -1,0 +1,56 @@
+#finished-container {
+  background: var(--color-primary);
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#finished-container main {
+  background-image: url("../../assets/images/background-finished.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 90%;
+  height: 90%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#finished-container main h1 {
+  font: 700 4.4rem Archivo;
+  color: #fff;
+}
+
+#finished-container main p {
+  color: var(--color-text-in-primary);
+  font: 400 1.6rem Poppins;
+  margin-top: 0.8rem;
+  line-height: 1.8rem;
+  max-width: 40rem;
+  text-align: center;
+}
+
+#finished-container main a {
+  height: 4.6rem;
+  width: 12rem;
+  margin-top: 4rem;
+  color: #fff;
+  background: var(--color-secundary);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font: 600 1.6rem Poppins;
+  border-radius: 0.8rem;
+  transition: all 0.2s ease;
+}
+
+#finished-container main a:hover {
+  background: var(--color-secundary-dark);
+}
