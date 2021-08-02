@@ -51,10 +51,10 @@ function Login() {
                 <label htmlFor="remember">Lembrar-me</label>
               </div>
 
-              <a href="">Esqueci minha senha</a>
+              <Link to="/recover-password">Esqueci minha senha</Link>
             </div>
 
-            <button type="submit" className="button">Entrar</button>
+            <button type="submit" className="button" disabled>Entrar</button>
           </form>
           
           <footer>

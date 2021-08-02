@@ -4,6 +4,10 @@
   overflow-x: hidden;
 }
 
+#page-register-container .container main a {
+  margin-left: 12rem;
+}
+
 #page-register-container .container main form {
   margin: 0 auto;
   padding: 6.0rem;

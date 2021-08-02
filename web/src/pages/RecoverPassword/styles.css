@@ -1,0 +1,95 @@
+#page-recover-password-container {
+  height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+#page-recover-password-container .container main {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#page-recover-password-container .container main a {
+  align-self: flex-start;
+  margin-left: 8rem;
+}
+
+#page-recover-password-container .container main form {
+  margin: 0 auto;
+  padding: 6.0rem;
+  margin-bottom: 0;
+}
+
+#page-recover-password-container .container main form h2 {
+  font: 600 3.6rem Poppins;
+  color: var(--color-text-title);
+}
+
+#page-recover-password-container .container main form p {
+  margin-bottom: 2.0rem;
+  max-width: 20rem;
+}
+
+#page-recover-password-container .container main form input {
+  height: 7.2rem;
+  padding: 0.6rem;
+  padding-right: 6rem;
+  border-radius: 0.8rem;
+  border: 1px solid var(--color-line-in-white);
+  outline: none;
+  width: 100%;
+}
+
+#page-recover-password-container .container main form .button {
+  cursor: pointer;
+  background: #DCDCE5;
+  width: 100%;
+  color: var(--color-button-text);
+  border: none;
+  height: 5.6rem;
+  border-radius: 0.8rem;
+  font: 700 1.6rem Poppins;
+  transition: all 0.2s;
+  margin-top: 5.6rem;
+}
+
+#page-recover-password-container .container main form .finished {
+  background: var(--color-secundary);
+  transition: all 0.2s;
+}
+
+#page-recover-password-container .container main form .finished:hover {
+  background: var(--color-secundary-dark);
+}
+
+@media(min-width: 1200px) {
+  #page-recover-password-container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #page-recover-password-container .container {
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    max-width: 128rem;
+  }
+
+  #page-recover-password-container .container main {
+    height: initial;
+  }
+
+  #page-recover-password-container .container main a {
+    margin-left: 12rem;
+  }
+  
+
+  #page-recover-password-container .container main form {
+    width: 80%;
+  }
+}

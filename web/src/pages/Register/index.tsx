@@ -1,10 +1,12 @@
 import React, { useState } from "react"
-import { useHistory } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 
 import PageBanner from "../../components/PageBanner"
 
 import showPasswordIcon from "../../assets/images/icons/show-password.png"
 import hiddenPasswordIcon from "../../assets/images/icons/hidden-password.png"
+import backIcon from "../../assets/images/icons/back.svg"
+
 import "./styles.css"
 
 function Register() {
@@ -28,6 +30,7 @@ function Register() {
     <div id="page-register-container">
       <div className="container">
         <main>
+        <Link to="/"><img src={backIcon} alt="Voltar" /></Link>
           <form>
             <h2>Cadastro</h2>
             <p>Preencha os dados abaixo para começar</p>
