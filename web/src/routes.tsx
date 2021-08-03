@@ -8,6 +8,7 @@ import Login from "./pages/Login"
 import Register from "./pages/Register"
 import FinishedRegister from "./pages/FinishedRegister"
 import RecoverPassword from "./pages/RecoverPassword"
+import FinishedRecoverPassword from "./pages/FinishedRecoverPassword"
 
 function Routes() {
   return (
@@ -19,6 +20,7 @@ function Routes() {
       <Route path="/give-classes" component={TeacherForm} />
       <Route path="/finished-register" component={FinishedRegister} />
       <Route path="/recover-password" component={RecoverPassword} />
+      <Route path="/finished-recover-password" component={FinishedRecoverPassword} />
     </BrowserRouter>
   )
 }
