@@ -21,6 +21,12 @@
   flex-direction: column;
 }
 
+#finished-container main img {
+  height: 8rem;
+  width: 8rem;
+  margin-bottom: 1rem;
+}
+
 #finished-container main h1 {
   font: 700 4.4rem Archivo;
   color: #fff;
