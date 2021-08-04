@@ -3,6 +3,26 @@
   height: 100vh;
 }
 
+#page-teacher-list .total-proffys {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#page-teacher-list .total-proffys .total-proffys-text {
+  font: 400 1.4rem Poppins;
+  margin: 0;
+  max-width: 15rem;
+  line-height: 2.6rem;
+  color: var(--color-text-in-primary);
+}
+
+#page-teacher-list .total-proffys img {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-right: 0.8rem;
+}
+
 .search-teachers {
   margin-top: 3.2rem;
 }
@@ -37,6 +57,14 @@
 #page-teacher-list main {
   margin: 3.2rem auto;
   width: 90%;
+}
+
+#page-teacher-list main .empty-proffys {
+  display: block;
+  margin: 0 auto;
+  max-width: 25rem;
+  text-align: center;
+  margin-top: 8rem;
 }
 
 @media (min-width: 700px) {

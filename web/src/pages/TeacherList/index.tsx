@@ -7,6 +7,7 @@ import Select from "../../components/Select"
 import api from "../../services/api"
 
 import searchIcon from "../../assets/images/icons/search.png"
+import smileIcon from "../../assets/images/icons/smile.svg"
 
 import "./styles.css"
 
@@ -35,7 +36,15 @@ function TeacherList() {
 
   return (
     <div id="page-teacher-list" className="container">
-      <PageHeader title="Estes são os proffys disponíveis.">
+      <PageHeader 
+        title="Estes são os proffys disponíveis." 
+        sideComponent={
+          <div className="total-proffys">
+            <img src={smileIcon} alt="Emoji de sorriso" />
+            <p className="total-proffys-text">Nós Temos 32 Proffys.</p>
+          </div>
+        }
+      >
         <form onSubmit={handleSearchTeachers} className="search-teachers">
           <Select 
             name="subject" 
@@ -84,12 +93,14 @@ function TeacherList() {
         </form>
       </PageHeader>
 
-
       <main>
-        {teachers.map((teacher: any) => {
-          return <TeacherItem key={teacher.id} teacher={teacher} />
-        })}
-        
+      {teachers.length > 0? 
+          teachers.map((teacher: any) => {
+            return <TeacherItem key={teacher.id} teacher={teacher} />
+          })
+          : 
+          <p className="empty-proffys">Nenhum professor encontrado em sua pesquisa.</p>
+        }
       </main>
     </div>
   )

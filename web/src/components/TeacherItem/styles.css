@@ -16,6 +16,7 @@
   width: 8rem;
   height: 8rem;
   border-radius: 50%;
+  background-color: var(--color-text-complement);
 }
 
 .teacher-item header div {

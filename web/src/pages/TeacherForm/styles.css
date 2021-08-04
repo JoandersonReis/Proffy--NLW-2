@@ -7,6 +7,27 @@
   margin-bottom: 2.6rem;
 }
 
+#page-teacher-form .next-proffy-container {
+  align-self: flex-end;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#page-teacher-form .next-proffy-container .next-proffy-text {
+  font: 400 1.4rem Poppins;
+  margin: 0;
+  max-width: 15rem;
+  line-height: 2.6rem;
+  color: var(--color-text-in-primary);
+}
+
+#page-teacher-form .next-proffy-container img {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-right: 0.8rem;
+}
+
 #page-teacher-form main {
   background: var(--color-box-base);
   width: 100%;

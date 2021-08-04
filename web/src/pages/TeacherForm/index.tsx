@@ -8,6 +8,7 @@ import Textarea from "../../components/Textarea"
 import Select from "../../components/Select"
 
 import warningIcon from "../../assets/images/icons/warning.svg"
+import rocketIcon from "../../assets/images/icons/rocket.svg"
 
 import "./styles.css"
 
@@ -67,6 +68,12 @@ function TeacherForm() {
       <PageHeader 
         title="Que íncrivel que você quer dar aulas."
         description="O primeiro passo é preencher esse formulário de inscrição."
+        sideComponent={
+          <div className="next-proffy-container">
+            <img src={rocketIcon} alt="Emoji de sorriso" />
+            <p className="next-proffy-text">Prepare-se! <br/> Vai ser o máximo.</p>
+          </div>
+        }
       />
 
       <main>

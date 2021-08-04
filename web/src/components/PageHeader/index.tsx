@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ReactNode } from "react"
 import { Link } from "react-router-dom"
 
 import logoImg from "../../assets/images/logo.svg"
@@ -9,22 +9,29 @@ import "./styles.css"
 interface PageHeaderProps {
   title: string,
   description?: string
+  sideComponent?: ReactNode
 }
 
-const PageHeader: React.FC<PageHeaderProps> = ({title, children, description}) => {
+const PageHeader: React.FC<PageHeaderProps> = ({title, children, description, sideComponent}) => {
   return (
     <header className="page-header">
       <div className="top-bar-container">
-        <Link to="/">
+        <Link to="/home">
           <img src={backIcon} alt="Voltar" />
         </Link>
         <img src={logoImg} alt="" />
       </div>
 
       <div className="header-content">
-        <strong>{title}</strong>
+        <div className="side-component-container">
+          <div>
+            <strong>{title}</strong>
+            { description && <p className="description">{description}</p> }
+          </div>
 
-        { description && <p>{description}</p> }
+          { sideComponent && sideComponent}    
+        </div>
+
 
         {children}
       </div>
