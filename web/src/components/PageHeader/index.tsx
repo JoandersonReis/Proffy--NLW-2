@@ -32,7 +32,6 @@ const PageHeader: React.FC<PageHeaderProps> = ({title, children, description, si
           { sideComponent && sideComponent}    
         </div>
 
-
         {children}
       </div>
     </header>

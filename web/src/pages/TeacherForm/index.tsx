@@ -81,24 +81,26 @@ function TeacherForm() {
           <fieldset>
             <legend>Seus Dados</legend>
 
-            <Input 
-              name="name" 
-              label="Nome Completo" 
-              value={name} 
-              onChange={(e) => { setName(e.target.value) }} 
-            />
-            <Input 
-              name="avatar" 
-              label="Avatar" 
-              value={avatar} 
-              onChange={(e) => { setAvatar(e.target.value) }} 
-            />
-            <Input 
-              name="whatsapp" 
-              label="Whatsapp" 
-              value={whatsapp} 
-              onChange={(e) => { setWhatsapp(e.target.value) }} 
-            />
+            <div className="profile-content">
+              <div className="profile">
+                <img src="https://avatars.githubusercontent.com/u/52385035?v=4" alt="Imagem de perfil" />
+                <span className="username">Joanderson Reis</span>
+              </div>
+
+              <div className="input-container">
+                <label htmlFor="whatsapp">Whatsapp</label>
+
+                <input
+                  id="whatsapp"
+                  name="whatsapp" 
+                  value={whatsapp} 
+                  onChange={(e) => setWhatsapp(e.target.value)}
+                  type="text"
+                  placeholder="(DDD) 9 9999-9999"
+                />
+              </div>
+            </div>
+
             <Textarea 
               name="bio" 
               label="Biografia" 
@@ -110,30 +112,37 @@ function TeacherForm() {
           <fieldset>
             <legend>Sobre a aula</legend>
 
-            <Select 
-              name="subject" 
-              label="Matéria"
-              value={subject}
-              onChange={(e) => { setSubject(e.target.value) }}
-              options={[
-                { value: "Artes", label: "Artes" },
-                { value: "Química", label: "Química" },
-                { value: "Geografia", label: "Geografia" },
-                { value: "História", label: "História" },
-                { value: "Português", label: "Português" },
-                { value: "Física", label: "Física" },
-                { value: "Sociologia", label: "Sociologia" },
-                { value: "Filosofia", label: "Filosofia" },
-                { value: "Biologia", label: "Biologia" }
-                
-              ]}
-            />
-            <Input 
-              name="cost" 
-              label="Custo da sua matéria por aula"
-              value={cost}
-              onChange={(e) => { setCost(e.target.value) }}
-            />
+            <div className="classes-container">
+              <Select 
+                name="subject" 
+                label="Matéria"
+                value={subject}
+                onChange={(e) => { setSubject(e.target.value) }}
+                options={[
+                  { value: "Artes", label: "Artes" },
+                  { value: "Química", label: "Química" },
+                  { value: "Geografia", label: "Geografia" },
+                  { value: "História", label: "História" },
+                  { value: "Português", label: "Português" },
+                  { value: "Física", label: "Física" },
+                  { value: "Sociologia", label: "Sociologia" },
+                  { value: "Filosofia", label: "Filosofia" },
+                  { value: "Biologia", label: "Biologia" }
+                  
+                ]}
+              />
+
+              <div className="input-container">
+                <label htmlFor="cost">Custo da sua hora por aula</label>
+                <input
+                  type="text"
+                  id="cost" 
+                  name="cost" 
+                  value={cost}
+                  onChange={(e) => { setCost(e.target.value) }}
+                />
+              </div>
+            </div>
           </fieldset>
 
           <fieldset>

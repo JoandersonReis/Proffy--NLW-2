@@ -78,6 +78,65 @@
   margin-top: 2.4rem;
 }
 
+#page-teacher-form main fieldset .profile-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+#page-teacher-form main fieldset .profile-content .profile {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+
+#page-teacher-form main fieldset .profile-content .profile img {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 3rem;
+  margin-right: 1rem;
+}
+
+#page-teacher-form main fieldset .profile-content .profile .username {
+  height: 3rem;
+  align-self: center;
+}
+
+#page-teacher-form main fieldset .input-container {
+  width: 100%;
+  position: relative;
+}
+
+#page-teacher-form main fieldset .input-container label {
+  font-size: 1.4rem;
+}
+
+#page-teacher-form main fieldset .input-container input {
+  width: 100%;
+  height: 4.6rem;
+  border-radius: 0.8rem;
+  background: var(--color-input-background);
+  border: 1px solid var(--color-line-in-white);
+  outline: 0;
+  margin-top: 0.8rem;
+  font: 1.6rem Archivo;
+  padding: 0 1.4rem;
+} 
+
+#page-teacher-form main fieldset .classes-container .input-container::before {
+  content: "R$";
+  left: 1.5rem;
+  top: 4.5rem;
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+}
+
+#page-teacher-form main fieldset .classes-container .input-container input {
+  padding: 0 4rem;
+}
+
 #page-teacher-form main label {
   color: var(--color-text-complement)
 }
@@ -131,6 +190,17 @@
     padding: 0 6.4rem;
   }
 
+  #page-teacher-form main fieldset .classes-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  #page-teacher-form main fieldset .input-container {
+    width: 40%;
+  }
+
   #page-teacher-form main fieldset .schedule-item {
     display: flex;
     justify-content: space-between;
@@ -140,6 +210,7 @@
   #page-teacher-form main fieldset .schedule-item  .input-block
   {
     margin-top: 0;
+    margin-left: 0.4rem;
   }
 
   #page-teacher-form main footer {
