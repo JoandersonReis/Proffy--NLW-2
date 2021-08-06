@@ -36,6 +36,58 @@ const TeacherItem: React.FC<TeacherItemProps> = ({teacher}) => {
 
       <p>{teacher.bio}</p>
 
+      <div className="schedule-classes-container">
+
+        <div className="schedule-class">
+          <p>Dia</p>
+          <h3>Terça</h3>
+          <p>Horário</p>
+          <h3>8h - 18h</h3>
+        </div>
+
+        <div className="schedule-class">
+          <p>Dia</p>
+          <h3>Domingo</h3>
+          <p>Horário</p>
+          <h3>8h - 18h</h3>
+        </div>
+
+        <div className="schedule-class">
+          <p>Dia</p>
+          <h3>Sábado</h3>
+          <p>Horário</p>
+          <h3>8h - 18h</h3>
+        </div>
+
+        <div className="schedule-class">
+          <p>Dia</p>
+          <h3>Segunda</h3>
+          <p>Horário</p>
+          <h3>8h - 18h</h3>
+        </div>
+
+        <div className="schedule-class">
+          <p>Dia</p>
+          <h3>Segunda</h3>
+          <p>Horário</p>
+          <h3>8h - 18h</h3>
+        </div>
+
+        <div className="schedule-class">
+          <p>Dia</p>
+          <h3>Segunda</h3>
+          <p>Horário</p>
+          <h3>8h - 18h</h3>
+        </div>
+
+        <div className="schedule-class">
+          <p>Dia</p>
+          <h3>Segunda</h3>
+          <p>Horário</p>
+          <h3>8h - 18h</h3>
+        </div>
+      </div>
+
       <footer>
         <p>Preço/Hora
           <strong>R$ {teacher.cost}</strong>
