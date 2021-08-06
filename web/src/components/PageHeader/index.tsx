@@ -7,7 +7,7 @@ import backIcon from "../../assets/images/icons/back.svg"
 import "./styles.css"
 
 interface PageHeaderProps {
-  title: string,
+  title?: string,
   description?: string
   sideComponent?: ReactNode
 }
@@ -25,7 +25,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({title, children, description, si
       <div className="header-content">
         <div className="side-component-container">
           <div>
-            <strong>{title}</strong>
+            {title && <strong>{title}</strong>}
             { description && <p className="description">{description}</p> }
           </div>
 

@@ -1,0 +1,264 @@
+#page-profile {
+  height: 100vh;
+  width: 100vw;
+}
+
+#page-profile .profile-header-content {
+  width: 90%;
+  height: 100%;
+  background-image: url("../../assets//images/background-finished.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  align-self: center;
+  justify-self: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#page-profile .profile-header-content .profile-image-container {
+  position: relative;
+  width: 10rem;
+  height: 10rem;
+}
+
+#page-profile .profile-header-content .profile-image-container button {
+  position: absolute;
+  bottom: 0;
+  right: 0.4rem;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 2rem;
+  border: none;
+  background: var(--color-secundary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#page-profile .profile-header-content .profile-image-container button img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+#page-profile .profile-header-content .profile-image-container .profile-image {
+  height: 10rem;
+  width: 10rem;
+  border-radius: 5rem;
+}
+
+#page-profile .profile-header-content .profile-name {
+  color: #fff;
+  margin-top: 2rem;
+  font: 700 3.2rem Archivo;
+}
+
+#page-profile .profile-header-content .subject {
+  color: var(--color-text-in-primary);
+  font: 400 1.6rem Poppins;
+}
+
+#page-profile main {
+  background: var(--color-box-base);
+  width: 100%;
+  max-width: 74rem;
+  border-radius: 0.8rem;
+  margin: -3.2rem auto 3.2rem;
+  padding-top: 6.4rem;
+  overflow: hidden;
+}
+
+#page-profile main fieldset {
+  border: 0;
+  padding: 0 2.4rem;
+}
+
+#page-profile main fieldset + fieldset {
+  margin-top: 6.4rem;
+}
+
+#page-profile main fieldset legend {
+  font: 700 2.4rem Archivo;
+  color: var(--color-text-title);
+  margin-bottom: 2.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 1.6rem;
+  border-bottom: 1px solid var(--color-line-in-white);
+}
+
+#page-profile main fieldset legend button {
+  background: none;
+  border: 0;
+  color: var(--color-primary);
+  font: 700 1.6rem Archivo;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+#page-profile main fieldset legend button:hover {
+  color: var(--color-primary-dark);
+}
+
+#page-profile main fieldset .input-block + .textarea-block,
+#page-profile main fieldset .select-block + .input-block
+{
+  margin-top: 2.4rem;
+}
+
+#page-profile main fieldset .profile-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+#page-profile main fieldset .input-container {
+  position: relative;
+}
+
+#page-profile main fieldset .profile-content .input-container {
+  width: 48%;
+}
+
+#page-profile main fieldset .profile-content .input-container label {
+  font-size: 1.4rem;
+}
+
+#page-profile main fieldset .profile-content .input-container input {
+  width: 100%;
+  height: 4.6rem;
+  border-radius: 0.8rem;
+  background: var(--color-input-background);
+  border: 1px solid var(--color-line-in-white);
+  outline: 0;
+  margin-top: 0.8rem;
+  font: 1.6rem Archivo;
+  padding: 0 1.4rem;
+} 
+
+#page-profile main fieldset .classes-container .input-container::before {
+  content: "R$";
+  left: 1.5rem;
+  top: 4.5rem;
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+}
+
+#page-profile main fieldset .classes-container .input-container input {
+  width: 100%;
+  height: 4.6rem;
+  border-radius: 0.8rem;
+  background: var(--color-input-background);
+  border: 1px solid var(--color-line-in-white);
+  outline: 0;
+  margin-top: 0.8rem;
+  font: 1.6rem Archivo;
+  padding: 0 1.4rem;
+} 
+
+#page-profile main fieldset .classes-container .input-container input {
+  padding: 0 4rem;
+}
+
+#page-profile main label {
+  color: var(--color-text-complement)
+}
+
+#page-profile main footer {
+  padding: 4rem 2.4rem;
+  background: var(--color-box-footer);
+  border-top: 1px solid var(--color-line-in-white);
+  margin-top: 6.4rem;
+}
+
+#page-profile main footer p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  line-height: 2.4rem;
+  color: var(--color-text-complement);
+}
+
+#page-profile main footer p img {
+  margin-right: 2rem;
+}
+
+#page-profile main footer button {
+  width: 100%;
+  height: 5.6rem;
+  background: var(--color-secundary);
+  color: var(--color-button-text);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  cursor: pointer;
+  border-radius: 0.8rem;
+  margin-top: 3.2rem;
+  font: 700 1.6rem Archivo;
+  transition: background-color 0.2s;
+}
+
+#page-profile main footer button:hover {
+  background: var(--color-secundary-dark);
+}
+
+@media(min-width: 700px) {
+  #page-profile {
+    max-width: 100vw;
+  }
+
+  #page-profile main fieldset {
+    padding: 0 6.4rem;
+  }
+
+  #page-profile main fieldset .classes-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  #page-profile main fieldset .input-container {
+    width: 40%;
+  }
+
+  #page-profile main fieldset .schedule-item {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  #page-profile main fieldset .schedule-item  .select-block,
+  #page-profile main fieldset .schedule-item  .input-block
+  {
+    margin-top: 0;
+    margin-left: 0.4rem;
+  }
+
+  #page-profile main footer {
+    padding: 4.0rem 2.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  #page-profile main footer p {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  #page-profile main footer button {
+    width: 20rem;
+    margin-top: 0;
+  }
+
+}

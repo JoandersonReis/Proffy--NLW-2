@@ -60,8 +60,8 @@ function TeacherList() {
               { value: "Física", label: "Física" },
               { value: "Sociologia", label: "Sociologia" },
               { value: "Filosofia", label: "Filosofia" },
-              { value: "Biologia", label: "Biologia" }
-              
+              { value: "Biologia", label: "Biologia" },
+              { value: "Matemática", label: "Matemática" }
             ]}
           />
           <Select 
