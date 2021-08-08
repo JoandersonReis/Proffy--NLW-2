@@ -2,19 +2,22 @@ import React, { FormEvent, useState } from "react"
 import PageHeader from "../../components/PageHeader"
 import { useHistory } from "react-router-dom"
 
-import cameraIcon from "../../assets/images/icons/camera.svg"
 
 import api from "../../services/api"
 import Textarea from "../../components/Textarea"
 import Select from "../../components/Select"
 import Input from "../../components/Input"
+import DropZone from "../../components/DropZone"
 
 import warningIcon from "../../assets/images/icons/warning.svg"
+
 
 import "./styles.css"
 
 function Profile() {
   const history = useHistory()
+  const [ selectedFile, setSelectedFile ] = useState<File>()
+  const [ selectFileURL, setSelectedFileURL ] = useState("https://avatars.githubusercontent.com/u/52385035?v=4")
   const [ scheduleItems, setScheduleItems ] = useState([{ week_day: 0, from: "", to: "" },])
 
   const [ name, setName ] = useState("")
@@ -71,8 +74,12 @@ function Profile() {
       <PageHeader>
         <div className="profile-header-content">
           <div className="profile-image-container">
-            <img className="profile-image" src="https://avatars.githubusercontent.com/u/52385035?v=4" alt="Imagem de perfil" />
-            <button type="button"><img src={cameraIcon} alt="Imagem de câmera" /></button>
+            <img
+              className="profile-image" 
+              src={selectFileURL} 
+              alt="Imagem de perfil" 
+            />
+            <DropZone onSelectedFile={setSelectedFile} onSelectedFileURL={setSelectedFileURL} />
           </div>
           <h2 className="profile-name">Joanderson Reis</h2>
           <p className="subject">Matemática</p>

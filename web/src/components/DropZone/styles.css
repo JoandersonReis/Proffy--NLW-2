@@ -1,0 +1,19 @@
+.dropzone  {
+  position: absolute;
+  bottom: 0;
+  right: 0.4rem;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 2rem;
+  border: none;
+  background: var(--color-secundary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.dropzone img {
+  width: 1.5rem;
+  height: 1.5rem;
+}

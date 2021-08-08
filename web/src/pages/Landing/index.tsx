@@ -29,10 +29,10 @@ function Landing() {
       <div id="page-landing-content" className="container">
         <main>
           <header>
-            <span className="profile">
+            <Link to="/profile" className="profile">
               <img src="https://avatars.githubusercontent.com/u/52385035?v=4" alt="Imagem de perfil" />
               Joanderson Reis
-            </span>
+            </Link>
 
             <button type="button"><img src={logoutIcon} alt="Botão de sair" /></button>
           </header>
