@@ -3,9 +3,10 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     backgroundColor: "#8257E5",
-    height: "50%",
+    height: "40%",
+    width: "100%",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
 
   content: {

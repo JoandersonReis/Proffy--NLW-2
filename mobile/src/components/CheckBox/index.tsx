@@ -15,11 +15,8 @@ const CheckBox: React.FC<CheckBoxProps> = ({ onChange, checked }) => {
   const [ checkedState, setCheckedState ] = useState(checked)
 
   function handleCheckChange() {
-    if(checked) {
-      onChange(false)
-    } else {
-      onChange(true)
-    }
+    checked? onChange(false):onChange(true)
+    
   }
 
   return (
