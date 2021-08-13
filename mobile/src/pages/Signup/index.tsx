@@ -15,10 +15,19 @@ import styles from "./styles"
 function Signup() {
   const [ showPassword, setShowPassword ] = useState(false)
   const [ currentStageSignup, setCurrentStageSignup ] = useState(0)
-  const { goBack } = useNavigation()
+  const { goBack, navigate } = useNavigation()
 
   function handleChangeShowPassword() {
     showPassword? setShowPassword(false):setShowPassword(true)
+  }
+
+  function handleNavigateLogin() {
+    navigate("Finished", {
+      title: "Cadastro Concluído",
+      description: "Agora você faz parte da plataforma da Proffy",
+      buttonText: "Fazer Login",
+      screenPath: "Login"
+    })
   }
 
   return (
@@ -29,7 +38,11 @@ function Signup() {
           <Image source={backIcon} style={styles.backButtonImg} />
         </BorderlessButton>
 
-        <Text style={styles.rollingIndex}>. <Text style={styles.rollingIndexWhite} >.</Text></Text>
+        <Text 
+          style={currentStageSignup == 0? styles.rollingIndex:styles.rollingIndexWhite}
+        >
+          . <Text style={currentStageSignup == 1? styles.rollingIndex:styles.rollingIndexWhite} >.</Text>
+          </Text>
       </View>
 
       <Text style={styles.title}>Crie sua conta gratuíta</Text>
@@ -44,7 +57,7 @@ function Signup() {
           </View>
         </FormSignup>
         :
-        <FormSignup title="02. E-mail e Senha" buttonText="Concluir Cadastro" buttonColor="#04D361">
+        <FormSignup title="02. E-mail e Senha" buttonText="Concluir Cadastro" buttonColor="#04D361" onPress={handleNavigateLogin}>
           <View>
             <Input placeholder="Nome" />
             <Input placeholder="Senha" secureTextEntry={showPassword? false:true} >

@@ -27,7 +27,8 @@ export default StyleSheet.create({
   },
 
   rollingIndexWhite: {
-    color: "#C1BCCC"
+    color: "#C1BCCC",
+    fontSize: 30,
   },
 
   title: {
