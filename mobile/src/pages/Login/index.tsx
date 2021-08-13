@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { Image, Text, View, KeyboardAvoidingView } from "react-native"
 import { BorderlessButton, RectButton } from "react-native-gesture-handler"
+import { useNavigation } from "@react-navigation/native"
 
 import Banner from "../../components/Banner"
 import CheckBox from "../../components/CheckBox"
@@ -15,6 +16,8 @@ function Login() {
   const [ remember, setRemember ] = useState(true)
   const [ showPassword, setShowPassword ] = useState(false)
 
+  const { navigate } = useNavigation()
+
   function handleChangeShowPassword() {
     showPassword? setShowPassword(false):setShowPassword(true)
   }
@@ -25,13 +28,13 @@ function Login() {
       <View style={styles.form}>
         <View style={styles.formHeader}>
           <Text style={styles.title}>Fazer Login</Text>
-          <BorderlessButton>
+          <BorderlessButton onPress={() => navigate("Signup")}>
             <Text style={styles.createAccountButtonText}>Criar uma conta</Text>
           </BorderlessButton>
         </View>
 
-        <Input placeholder="E-mail" placeholderTextColor="#9C98A6" />
-        <Input placeholder="Senha" secureTextEntry={showPassword? false:true} placeholderTextColor="#9C98A6">
+        <Input placeholder="E-mail" />
+        <Input placeholder="Senha" secureTextEntry={showPassword? false:true} >
           <RectButton style={styles.showPasswordButton} onPress={handleChangeShowPassword}>
             <Image style={styles.showPasswordImg} source={showPassword? hiddenPasswordIcon:showPasswordIcon} />
           </RectButton>
@@ -43,7 +46,7 @@ function Login() {
             <Text style={styles.rememberText}>Lembrar-me</Text>
           </View>
 
-          <BorderlessButton style={styles.forgottenPassword}>
+          <BorderlessButton>
             <Text style={styles.forgottenPasswordText}>Esqueci minha senha</Text>
           </BorderlessButton>
         </View>

@@ -13,7 +13,7 @@ const Input: React.FC<TextInputProps> = ({children, ...rest}) => {
   return (
     <View style={styles.container}>
       { isFocus && <View style={styles.selected} /> }
-      <TextInput style={styles.input} {...rest} onFocus={handleChangeFocus} onBlur={handleChangeFocus}  />
+      <TextInput style={styles.input} {...rest} onFocus={handleChangeFocus} onBlur={handleChangeFocus} placeholderTextColor="#9C98A6" />
       { children }
     </View>
   )
