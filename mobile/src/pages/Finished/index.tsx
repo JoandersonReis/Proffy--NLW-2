@@ -7,6 +7,7 @@ import backgroundImage from "../../assets/images/background-finished.png"
 import checkedIcon from "../../assets/images/icons/checked.png"
 
 import styles from "./styles"
+import Button from "../../components/Button"
 
 interface ParamsProps {
   title: string,
@@ -26,11 +27,9 @@ function Finished() {
         <Image source={checkedIcon} />
         <Text style={styles.title}>{params.title}</Text>
         <Text style={styles.description}>{params.description}</Text>
+        
+        <Button buttonBackgroundColor="#04D361" buttonText="Fazer Login" colorButtonText="#fff" onPress={() => navigate(params.screenPath)} />
       </ImageBackground>
-
-      <RectButton style={styles.finishedButton} onPress={() => navigate(params.screenPath)}>
-        <Text style={styles.finishedButtonText}>{params.buttonText}</Text>
-      </RectButton>
     </View>
   )
 }

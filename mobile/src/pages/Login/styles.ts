@@ -73,29 +73,5 @@ export default StyleSheet.create({
     color: "#9C98A6",
     fontFamily: "Poppins Regular",
     fontSize: 12
-  },
-
-  buttonLogin: {
-    backgroundColor: "#DCDCE5",
-    height: 56,
-    width: "100%",
-    borderRadius: 8,
-    marginTop: 20,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-
-  buttonLoginText: {
-    color: "#9C98A6",
-    fontFamily: "Archivo SemiBold",
-    fontSize: 16
-  },
-
-  buttonLoginAlready: {
-    backgroundColor: "#04D361"
-  },
-
-  buttonLoginAlreadyText: {
-    color: "#fff"
   }
 })

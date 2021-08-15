@@ -17,8 +17,9 @@ export default StyleSheet.create({
   },
 
   backButtonImg: {
-    width: 25,
-    height: 25
+    width: 20,
+    height: 20,
+    resizeMode: "contain"
   },
 
   rollingIndex: {

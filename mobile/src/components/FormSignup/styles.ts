@@ -11,18 +11,4 @@ export default StyleSheet.create({
     fontSize: 24,
     color: "#32264D",
   },
-
-  submitButton: {
-    height: 56,
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 12
-  },
-
-  submitButtonText: {
-    color: "#fff",
-    fontFamily: "Archivo SemiBold",
-    fontSize: 16
-  }
 })

@@ -2,6 +2,8 @@ import React from "react"
 import { Text, View } from "react-native"
 import { RectButton, RectButtonProperties } from "react-native-gesture-handler"
 
+import Button from "../Button"
+
 import styles from "./styles"
 
 interface FormProps extends RectButtonProperties {
@@ -16,9 +18,7 @@ const FormSignup: React.FC<FormProps> = ({ title, buttonColor, buttonText, child
       <Text style={styles.title}>{title}</Text>
       {children}
 
-      <RectButton style={[styles.submitButton, {backgroundColor:buttonColor}]} {...rest}>
-        <Text style={styles.submitButtonText}>{buttonText}</Text>
-      </RectButton>
+      <Button buttonText={buttonText} buttonBackgroundColor={buttonColor} colorButtonText="#fff" {...rest} />
     </View>
   )
 }

@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native"
 import Banner from "../../components/Banner"
 import CheckBox from "../../components/CheckBox"
 import Input from "../../components/Input"
+import Button from "../../components/Button"
 
 import showPasswordIcon from "../../assets/images/icons/show-password.png"
 import hiddenPasswordIcon from "../../assets/images/icons/hidden-password.png"
@@ -46,14 +47,12 @@ function Login() {
             <Text style={styles.rememberText}>Lembrar-me</Text>
           </View>
 
-          <BorderlessButton>
+          <BorderlessButton onPress={() => navigate("RecoverPassword")} >
             <Text style={styles.forgottenPasswordText}>Esqueci minha senha</Text>
           </BorderlessButton>
         </View>
 
-        <RectButton style={[styles.buttonLogin]}>
-          <Text style={[styles.buttonLoginText]}>Entrar</Text>
-        </RectButton>
+        <Button buttonText="Entrar" onPress={() => navigate("Landing")} />
       </View>
     </KeyboardAvoidingView>
   )

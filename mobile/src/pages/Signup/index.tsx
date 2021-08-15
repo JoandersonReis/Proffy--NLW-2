@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native"
 import { Image, KeyboardAvoidingView, StatusBar, Text, View } from "react-native"
 import { BorderlessButton, RectButton } from "react-native-gesture-handler"
 
-import backIcon from "../../assets/images/icons/back.png"
+import arrowLeftIcon from "../../assets/images/icons/arrow-left.png"
 import showPasswordIcon from "../../assets/images/icons/show-password.png"
 import hiddenPasswordIcon from "../../assets/images/icons/hidden-password.png"
 
@@ -35,7 +35,7 @@ function Signup() {
       <StatusBar backgroundColor="#E6E6F0" />
       <View style={styles.header}>
         <BorderlessButton onPress={() => goBack()}>
-          <Image source={backIcon} style={styles.backButtonImg} />
+          <Image source={arrowLeftIcon} style={styles.backButtonImg} />
         </BorderlessButton>
 
         <Text 

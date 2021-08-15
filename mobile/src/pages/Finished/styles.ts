@@ -31,21 +31,7 @@ export default StyleSheet.create({
     fontSize: 14,
     fontFamily: "Poppins Regular",
     maxWidth: 250,
-    textAlign: "center"
+    textAlign: "center",
+    marginBottom: 80
   },
-
-  finishedButton: {
-    backgroundColor: "#04D361",
-    height: 56,
-    borderRadius: 8,
-    width: "80%",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-
-  finishedButtonText: {
-    fontFamily: "Archivo SemiBold",
-    color: "#fff",
-    fontSize: 16
-  }
 })
