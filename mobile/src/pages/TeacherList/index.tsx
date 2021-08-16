@@ -1,15 +1,17 @@
 import React, { useState } from "react"
-import { ScrollView, View, TextInput, Text } from "react-native"
+import { ScrollView, View, TextInput, Text, Image, Alert } from "react-native"
 import PageHeader from "../../components/PageHeader"
-import { BorderlessButton, RectButton } from "react-native-gesture-handler"
+import { RectButton } from "react-native-gesture-handler"
 import Icon from "react-native-vector-icons/Feather"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import RNPickerSelect from 'react-native-picker-select';
+
+import api from "../../services/api"
+import TeacherItem from "../../components/TeacherItem"
+
+import smileIcon from "../../assets/images/icons/smile.png"
 
 import styles from "./styles"
-
-import TeacherItem from "../../components/TeacherItem"
-import api from "../../services/api"
-import { Alert } from "react-native"
 
 export interface TeachersProps {
   id: number,
@@ -27,9 +29,9 @@ function TeacherList() {
   const [ teachers, setTeachers ] = useState([])
   const [ favorites, setFavorites ] = useState<number[]>([])
 
-  const [ subject, setSubject ] = useState("")
-  const [ weekDay, setWeekDay ] = useState("")
-  const [ time, setTime ] = useState("")
+  const [ subject, setSubject ] = useState("Selecione")
+  const [ weekDay, setWeekDay ] = useState("Selecione")
+  const [ time, setTime ] = useState("Selecione")
 
   function toggleSearchForm() {
     if(isFiltersVisible) {
@@ -71,49 +73,86 @@ function TeacherList() {
     <View style={styles.container}>
       <PageHeader 
         title="Proffys disponíveis" 
-        headerRight={isFiltersVisible?
-          <BorderlessButton style={styles.toggleButton} onPress={toggleSearchForm}>
-            <Icon name="filter" size={20} color="#e33d3d" />
-          </BorderlessButton>
-          :
-          <BorderlessButton style={styles.toggleButton} onPress={toggleSearchForm}>
-            <Icon name="filter" size={20} color="#04d361" />
-          </BorderlessButton>
-        }
-      >
+        headerRight={
+          <View style={styles.totalProffys}>
+            <Image source={smileIcon} resizeMode="contain" />
+            <Text style={styles.totalProffysText}>32 Proffys</Text>
+          </View>
+        }>
+        <View style={styles.toggleButtonContainer}>
+          <RectButton onPress={toggleSearchForm} style={styles.toggleButton}>
+            {isFiltersVisible? <Icon name="filter" size={20} color="#e33d3d" />:<Icon name="filter" size={20} color="#04d361" />}
+            <Text style={styles.toggleButtonText}>Filtrar por dia, hora e matéria</Text>
+            {isFiltersVisible? <Icon name="chevron-up" size={20} color="#D4C2FF" />:<Icon name="chevron-down" size={20} color="#D4C2FF" />}
+          </RectButton>
+        </View>
+
         {isFiltersVisible && (
           <View style={styles.searchForm}>
-            <Text style={styles.label}>Matéria</Text>
-            <TextInput 
-              style={styles.input} 
-              placeholder="Qual matéria?"
-              placeholderTextColor="#c1bccc"
-              value={subject}
-              onChangeText={text => setSubject(text)}
+            <RNPickerSelect
+              placeholder={{
+                label: subject,
+                value: subject,
+                color: "#C1BCCC",
+              }}
+              onValueChange={(value) => setSubject(value)}
+              items={[
+                { label: "Matemática", value: "Matemática" },
+                { label: "Português", value: "Português" },
+                { label: "Ciências", value: "Ciências" },
+                { label: "História", value: "História" },
+                { label: "Geografia", value: "Geografia" },
+                { label: "Física", value: "Física" },
+                { label: "Química", value: "Química" },
+                { label: "Filosofia", value: "Filosofia" },
+                { label: "Sociologia", value: "Sociologia" },
+                { label: "Biologia", value: "Biologia" },
+              ]}
             />
 
             <View style={styles.inputGroup}>
-              <View style={styles.inputBlock}>
-                <Text style={styles.label}>Dia da semana</Text>
-                <TextInput 
-                  style={styles.input} 
-                  placeholder="Qual dia?"
-                  placeholderTextColor="#c1bccc"
-                  value={weekDay}
-                  onChangeText={text => setWeekDay(text)} 
-                />
-              </View>
+              <RNPickerSelect
+                placeholder={{
+                  label: String(weekDay),
+                  value: weekDay,
+                  color: "#C1BCCC"
+                }}
+                onValueChange={(value) => setWeekDay(value)}
+                items={[
+                  { label: "Domingo", value: 0 },
+                  { label: "Segunda", value: 1 },
+                  { label: "Terça", value: 2 },
+                  { label: "Quarta", value: 3 },
+                  { label: "Quinta", value: 4 },
+                  { label: "Sexta", value: 5},
+                  { label: "Sábado", value: 6 },
+                ]}
+              />
 
-              <View style={styles.inputBlock}>
-                <Text style={styles.label}>Horário</Text>
-                <TextInput 
-                  style={styles.input} 
-                  placeholder="Qual horário?"
-                  placeholderTextColor="#c1bccc"
-                  value={time}
-                  onChangeText={text => setTime(text)}
-                />
-              </View>
+              <RNPickerSelect
+                placeholder={{
+                  label: time,
+                  value: time,
+                  color: "#C1BCCC"
+                }}
+                onValueChange={(value) => setTime(value)}
+                items={[
+                  { label: "6 Horas", value: "6:00" },
+                  { label: "7 Horas", value: "7:00" },
+                  { label: "8 Horas", value: "8:00" },
+                  { label: "9 Horas", value: "9:00" },
+                  { label: "10 Horas", value: "10:00" },
+                  { label: "11 Horas", value: "11:00" },
+                  { label: "12 Horas", value: "12:00" },
+                  { label: "13 Horas", value: "13:00" },
+                  { label: "14 Horas", value: "14:00" },
+                  { label: "15 Horas", value: "15:00" },
+                  { label: "16 Horas", value: "16:00" },
+                  { label: "17 Horas", value: "17:00" },
+                  { label: "18 Horas", value: "18:00" },
+                  { label: "19 Horas", value: "19:00" },
+                ]}
+              />
             </View>
 
             <RectButton style={styles.filterButton} onPress={searchTeachers}>

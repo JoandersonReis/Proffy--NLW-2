@@ -23,7 +23,7 @@ function Landing() {
   }, [])
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView>
       <View style={styles.header}>
         <View style={styles.topBar}>
           <BorderlessButton style={styles.profile}>

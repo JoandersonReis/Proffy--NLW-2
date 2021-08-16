@@ -10,12 +10,39 @@ export default StyleSheet.create({
     marginTop: -40
   },
 
+  totalProffys: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  totalProffysText: {
+    fontSize: 12,
+    fontFamily: "Poppins Regular",
+    color: "#D4C2FF",
+    marginLeft: 4,
+  },
+
+  toggleButtonContainer: {
+    borderBottomColor: "#9871F5",
+    borderBottomWidth: 1,
+    borderStyle: "solid",
+  },
+
   toggleButton: {
-    padding: 10
+    flexDirection: "row",
+    height: 35,
+    justifyContent: "space-between"
+  },
+
+  toggleButtonText: {
+    fontFamily: "Poppins Regular",
+    fontSize: 14,
+    color: "#D4C2FF"
   },
 
   searchForm: {
-    marginBottom: 8
+    marginVertical: 8
   },
 
   label: {
@@ -24,10 +51,7 @@ export default StyleSheet.create({
   },
 
 
-  inputGroup: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
+ 
   
   inputBlock: {
     width: "48%"
