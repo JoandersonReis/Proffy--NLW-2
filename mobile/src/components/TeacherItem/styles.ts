@@ -46,6 +46,49 @@ export default StyleSheet.create({
     lineHeight: 27,
     fontSize: 14,
     color: "#6a6180",
+    marginBottom: 12
+  },
+
+  scheduleContainer: {
+    borderTopWidth: 1,
+    borderColor: "#E6E6F0",
+    paddingVertical: 20
+  },
+
+  schedule: {
+    marginHorizontal: 24
+  },
+
+  labelsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 10,
+    marginTop: 12
+  },
+
+  label: {
+    fontFamily: "Poppins Regular",
+    color: "#9C98A6",
+    fontSize: 10,
+  },
+
+  dayTimeContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    backgroundColor: "#FAFAFC",
+    height: 40,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#E6E6F0",
+    marginTop: 8
+  },
+
+  dayTime: {
+    fontFamily: "Archivo Bold",
+    fontSize: 16,
+    color: "#6A6180",
   },
 
   footer: {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, Linking, Text, View } from "react-native";
+import { Image, Linking, StyleSheet, Text, View } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -8,6 +8,7 @@ import styles from "./styles"
 import heartOutlineIcon from "../../assets/images/icons/heart-outline.png"
 import unfavoriteIcon from "../../assets/images/icons/unfavorite.png"
 import whatsappIcon from "../../assets/images/icons/whatsapp.png"
+import arrowRightIcon from "../../assets/images/icons/arrow-right.png"
 
 import { TeachersProps } from "../../pages/TeacherList"
 import api from "../../services/api";
@@ -72,10 +73,51 @@ const TeacherItem: React.FC<TeacherProps> = ({teacher, favorited}) => {
       
       <Text style={styles.bio}>{teacher.bio}</Text>
 
+      <View style={styles.scheduleContainer}>
+        <View style={styles.schedule}>
+          <View style={styles.labelsContainer}>
+            <Text style={styles.label}>Dia</Text>
+            <Text style={styles.label}>Horário</Text>
+          </View>
+
+          <View style={styles.dayTimeContainer}>
+            <Text style={styles.dayTime}>Segunda</Text>
+            <Image source={arrowRightIcon} />
+            <Text style={styles.dayTime}>8h - 18h</Text>
+          </View>
+        </View>
+        <View style={styles.schedule}>
+          <View style={styles.labelsContainer}>
+            <Text style={styles.label}>Dia</Text>
+            <Text style={styles.label}>Horário</Text>
+          </View>
+
+          <View style={styles.dayTimeContainer}>
+            <Text style={styles.dayTime}>Segunda</Text>
+            <Image source={arrowRightIcon} />
+            <Text style={styles.dayTime}>8h - 18h</Text>
+          </View>
+        </View>
+        <View style={styles.schedule}>
+          <View style={styles.labelsContainer}>
+            <Text style={styles.label}>Dia</Text>
+            <Text style={styles.label}>Horário</Text>
+          </View>
+
+          <View style={styles.dayTimeContainer}>
+            <Text style={styles.dayTime}>Segunda</Text>
+            <Image source={arrowRightIcon} />
+            <Text style={styles.dayTime}>8h - 18h</Text>
+          </View>
+        </View>
+      </View>
+
       <View style={styles.footer}>
         <Text style={styles.price}>
           Preço/Hora {"   "}
-          <Text style={styles.priceValue}>R$ {teacher.cost}</Text>
+          <Text style={styles.priceValue}>
+            R$ {teacher.cost.toLocaleString("pt-br", {style: "currency", currency: "BRL"})}
+          </Text>
         </Text>
 
         <View style={styles.buttonsContainer}>
