@@ -20,7 +20,7 @@ export default StyleSheet.create({
     fontSize: 12,
     fontFamily: "Poppins Regular",
     color: "#D4C2FF",
-    marginLeft: 4,
+    marginLeft: 8,
   },
 
   toggleButtonContainer: {

@@ -1,13 +1,15 @@
 import React, { useState } from "react"
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { Text, View, ScrollView } from "react-native"
+import { Text, View, ScrollView, Image } from "react-native"
 import { useFocusEffect } from "@react-navigation/native"
 
-import styles from "./styles"
 import { TeachersProps } from "../TeacherList"
-
 import TeacherItem from "../../components/TeacherItem"
 import PageHeader from "../../components/PageHeader"
+
+import emojiLoveIcon from "../../assets/images/icons/emoji-love.png"
+
+import styles from "./styles"
 
 function Favorites() {
   const [ favorites, setFavorites ] = useState([])
@@ -28,7 +30,15 @@ function Favorites() {
 
   return (
     <View style={styles.container}>
-      <PageHeader title="Meus Proffys favoritos" />
+      <PageHeader 
+        title="Meus Proffys favoritos" 
+        headerRight={
+          <View style={styles.totalFavoritesProffys}>
+            <Image source={emojiLoveIcon} resizeMode="contain" />
+            <Text style={styles.totalFavoritesProffysText}>32 Proffys</Text>
+          </View>
+        } 
+      />
 
       <ScrollView 
         style={styles.teacherList}
