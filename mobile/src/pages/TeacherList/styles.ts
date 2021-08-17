@@ -7,7 +7,7 @@ export default StyleSheet.create({
   },
 
   teacherList: {
-    marginTop: -40
+    marginTop: -25
   },
 
   totalProffys: {
@@ -27,6 +27,7 @@ export default StyleSheet.create({
     borderBottomColor: "#9871F5",
     borderBottomWidth: 1,
     borderStyle: "solid",
+    marginBottom: 20
   },
 
   toggleButton: {
@@ -45,27 +46,11 @@ export default StyleSheet.create({
     marginVertical: 8
   },
 
-  label: {
-    color: "#d4c2ff",
-    fontFamily: "Poppins Regular"
-  },
-
-
- 
-  
-  inputBlock: {
-    width: "48%"
-  },
-
-  input: {
-    height: 54,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    marginTop: 4,
-    marginBottom: 16,
-    color: "#000"
+  pickerGroup: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    maxWidth: '50%',
+    marginBottom: 20
   },
 
   filterButton: {

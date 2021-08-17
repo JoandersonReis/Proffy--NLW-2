@@ -1,17 +1,18 @@
 import React, { useState } from "react"
-import { ScrollView, View, TextInput, Text, Image, Alert } from "react-native"
-import PageHeader from "../../components/PageHeader"
+import { ScrollView, View, TextInput, Text, Image } from "react-native"
 import { RectButton } from "react-native-gesture-handler"
 import Icon from "react-native-vector-icons/Feather"
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import RNPickerSelect from 'react-native-picker-select';
 
 import api from "../../services/api"
 import TeacherItem from "../../components/TeacherItem"
+import PageHeader from "../../components/PageHeader"
+import Picker from "../../components/Picker"
 
 import smileIcon from "../../assets/images/icons/smile.png"
 
 import styles from "./styles"
+import { Alert } from "react-native"
 
 export interface TeachersProps {
   id: number,
@@ -29,9 +30,9 @@ function TeacherList() {
   const [ teachers, setTeachers ] = useState([])
   const [ favorites, setFavorites ] = useState<number[]>([])
 
-  const [ subject, setSubject ] = useState("Selecione")
-  const [ weekDay, setWeekDay ] = useState("Selecione")
-  const [ time, setTime ] = useState("Selecione")
+  const [ subject, setSubject ] = useState<string|number|null>("")
+  const [ weekDay, setWeekDay ] = useState<string|number|null>("")
+  const [ time, setTime ] = useState<string|number|null>("")
 
   function toggleSearchForm() {
     if(isFiltersVisible) {
@@ -89,13 +90,10 @@ function TeacherList() {
 
         {isFiltersVisible && (
           <View style={styles.searchForm}>
-            <RNPickerSelect
-              placeholder={{
-                label: subject,
-                value: subject,
-                color: "#C1BCCC",
-              }}
-              onValueChange={(value) => setSubject(value)}
+            
+            <Picker
+              onChangeValue={setSubject}
+              defaultValue={subject}
               items={[
                 { label: "Matemática", value: "Matemática" },
                 { label: "Português", value: "Português" },
@@ -104,38 +102,43 @@ function TeacherList() {
                 { label: "Geografia", value: "Geografia" },
                 { label: "Física", value: "Física" },
                 { label: "Química", value: "Química" },
-                { label: "Filosofia", value: "Filosofia" },
-                { label: "Sociologia", value: "Sociologia" },
                 { label: "Biologia", value: "Biologia" },
+                { label: "Sociologia", value: "Sociologia" },
+                { label: "Filosofia", value: "Filosofia" },
+                { label: "Ed. Física", value: "Ed. Física" },
+                { label: "Inglês", value: "Inglês" },
               ]}
             />
 
-            <View style={styles.inputGroup}>
-              <RNPickerSelect
-                placeholder={{
-                  label: String(weekDay),
-                  value: weekDay,
-                  color: "#C1BCCC"
+            <View style={styles.pickerGroup}>
+              <Picker
+                style={{
+                  container: {
+                    width: "90%"
+                  }
                 }}
-                onValueChange={(value) => setWeekDay(value)}
+                onChangeValue={setWeekDay}
+                defaultValue={weekDay}
                 items={[
-                  { label: "Domingo", value: 0 },
-                  { label: "Segunda", value: 1 },
-                  { label: "Terça", value: 2 },
-                  { label: "Quarta", value: 3 },
-                  { label: "Quinta", value: 4 },
-                  { label: "Sexta", value: 5},
-                  { label: "Sábado", value: 6 },
+                  { label: "Domingo", value: "0" },
+                  { label: "Segunda", value: "1" },
+                  { label: "Terça", value: "2" },
+                  { label: "Quarta", value: "3" },
+                  { label: "Quinta", value: "4" },
+                  { label: "Sexta", value: "5" },
+                  { label: "Sábado", value: "6" },
                 ]}
               />
 
-              <RNPickerSelect
-                placeholder={{
-                  label: time,
-                  value: time,
-                  color: "#C1BCCC"
+              <Picker
+                style={{
+                  container: {
+                    width: "90%",
+                    marginLeft: "20%",
+                  }
                 }}
-                onValueChange={(value) => setTime(value)}
+                onChangeValue={setTime}
+                defaultValue={time}
                 items={[
                   { label: "6 Horas", value: "6:00" },
                   { label: "7 Horas", value: "7:00" },
@@ -151,6 +154,7 @@ function TeacherList() {
                   { label: "17 Horas", value: "17:00" },
                   { label: "18 Horas", value: "18:00" },
                   { label: "19 Horas", value: "19:00" },
+                  { label: "20 Horas", value: "20:00" },
                 ]}
               />
             </View>
