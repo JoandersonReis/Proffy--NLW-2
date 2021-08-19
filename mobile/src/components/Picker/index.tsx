@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Text, View, StyleProp, ViewStyle, TextStyle } from "react-native"
-import { FlatList, RectButton } from "react-native-gesture-handler"
+import { FlatList, RectButton, ScrollView } from "react-native-gesture-handler"
 import Icon from "react-native-vector-icons/Feather"
 
 import styles from "./styles"
@@ -59,24 +59,37 @@ const Picker: React.FC<PickerProps> = ({ items, onChangeValue, defaultValue, pla
         <Icon name={isActiveMenu? "chevron-up":"chevron-down"} color={iconColor? iconColor:"#6A6180"} size={15} />
       </RectButton>
 
-      {isActiveMenu && 
-        <FlatList
-          style={[styles.menu, style?.menu]}
-          showsVerticalScrollIndicator
-          data={items}
-          keyExtractor={item => item.value}
-          renderItem={({item}) => (
-            <RectButton 
-              onPress={() => handleChangeItemSelected(item)}
-              style={[styles.menuItem, style?.itemSelected, item.value == defaultValue? styles.itemSelected:null]} 
-            >
-              <Text style={[styles.menuItemText, style?.itemSelectedText, item.value == defaultValue? styles.itemSelectedText:null]}>
-                {item.label}
-              </Text>
-            </RectButton>
-          )}
-        />
-      }
+      <ScrollView style={[styles.menu, style?.menu]}>
+      {isActiveMenu &&
+        items.map((item) => (
+          <RectButton
+            key={item.value}
+            onPress={() => handleChangeItemSelected(item)}
+            style={[styles.menuItem, style?.itemSelected, item.value == defaultValue? styles.itemSelected:null]} 
+          >
+            <Text style={[styles.menuItemText, style?.itemSelectedText, item.value == defaultValue? styles.itemSelectedText:null]}>
+              {item.label}
+            </Text>
+          </RectButton>
+        ))
+        // <FlatList
+        //   style={[styles.menu, style?.menu]}
+        //   showsVerticalScrollIndicator
+        //   data={items}
+        //   keyExtractor={item => item.value}
+        //   renderItem={({item}) => (
+          //     <RectButton 
+          //       onPress={() => handleChangeItemSelected(item)}
+          //       style={[styles.menuItem, style?.itemSelected, item.value == defaultValue? styles.itemSelected:null]} 
+          //     >
+          //       <Text style={[styles.menuItemText, style?.itemSelectedText, item.value == defaultValue? styles.itemSelectedText:null]}>
+          //         {item.label}
+          //       </Text>
+          //     </RectButton>
+          //   )}
+          // />
+        }
+        </ScrollView>
     </View>
   )
 }

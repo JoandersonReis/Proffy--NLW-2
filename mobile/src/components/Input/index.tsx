@@ -3,6 +3,7 @@ import { TextInput, View, TextInputProps } from "react-native"
 
 import styles from "./styles"
 
+
 const Input: React.FC<TextInputProps> = ({children, ...rest}) => {
   const [ isFocus, setIsFocus ] = useState(false)
 

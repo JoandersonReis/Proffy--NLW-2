@@ -10,7 +10,7 @@ import logoImg from "../../assets/images/logo.png"
 
 interface PageHeaderProps {
   title: string,
-  headerRight?: ReactNode
+  headerRight?: ReactNode,
 }
 
 const PageHeader: React.FC<PageHeaderProps> = ({ title, children, headerRight }) => {
@@ -29,7 +29,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, children, headerRight })
       </View>
 
       <View style={styles.header}>
-        <Text style={styles.title}>{title}</Text>
+        <Text style={[styles.title, !headerRight? {maxWidth: 250}:null]}>{title}</Text>
 
         {headerRight && headerRight}
       </View>

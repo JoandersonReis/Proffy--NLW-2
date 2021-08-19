@@ -14,7 +14,8 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 16,
-    marginVertical: 8
+    marginVertical: 8,
+    
   },
 
   toggleButtonText: {
@@ -30,7 +31,7 @@ export default StyleSheet.create({
     width: "100%",
     top: 48,
     maxHeight: 170,
-    borderRadius: 8
+    borderRadius: 8,
   },
 
   menuItem: {
