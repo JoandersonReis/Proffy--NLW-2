@@ -26,7 +26,7 @@ function Landing() {
     <ScrollView>
       <View style={styles.header}>
         <View style={styles.topBar}>
-          <BorderlessButton style={styles.profile}>
+          <BorderlessButton style={styles.profile} onPress={() => navigation.navigate("Profile")}>
             <Image
               style={styles.profileImage}
               source={{

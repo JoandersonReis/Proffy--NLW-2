@@ -9,6 +9,7 @@ import Login from "../pages/Login"
 import Signup from "../pages/Signup"
 import Finished from "../pages/Finished"
 import RecoverPassword from "../pages/RecoverPassword"
+import Profile from "../pages/Profile"
 
 const { Navigator, Screen } = createStackNavigator()
 
@@ -23,6 +24,7 @@ function AppStack() {
         <Screen name="Study" component={StudyTabs} />
         <Screen name="Finished" component={Finished} />
         <Screen name="RecoverPassword" component={RecoverPassword} />
+        <Screen name="Profile" component={Profile} />
       </Navigator>
     </NavigationContainer>
   )

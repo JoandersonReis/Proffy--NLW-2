@@ -22,7 +22,7 @@ interface ItemProps {
 
 interface PickerProps {
   items: Array<ItemProps>,
-  onChangeValue: (item: string|number|null) => void,
+  onChangeValue?: (item: string|number|null) => void,
   placeholder?: string,
   placeholderColor?: string,
   defaultValue: string|number|null,
@@ -41,7 +41,7 @@ const Picker: React.FC<PickerProps> = ({ items, onChangeValue, defaultValue, pla
 
   function handleChangeItemSelected(item: ItemProps) {
     setItemSelected(item)
-    onChangeValue(item.value)
+    onChangeValue && onChangeValue(item.value);
 
     handleActiveToggleMenu()
   }

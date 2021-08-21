@@ -100,6 +100,13 @@ export default StyleSheet.create({
     alignItems: "flex-end"
   },
 
+  scheduleBlock: {
+    borderTopColor: "#8257E5",
+    borderTopWidth: 1,
+    marginTop: 8,
+    paddingTop: 8
+  },
+
   addNewClassButtonText: {
     fontSize: 14,
     fontFamily: "Archivo SemiBold",
