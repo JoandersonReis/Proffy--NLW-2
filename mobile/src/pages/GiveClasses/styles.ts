@@ -110,7 +110,9 @@ export default StyleSheet.create({
   addNewClassButtonText: {
     fontSize: 14,
     fontFamily: "Archivo SemiBold",
-    color: "#8257E5"
+    color: "#8257E5",
+    paddingHorizontal: 10,
+    paddingTop: 5
   },
 
   timeContainer: {

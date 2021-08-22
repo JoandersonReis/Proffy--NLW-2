@@ -21,7 +21,6 @@ function GiveClasses() {
 
   function handleAddScheduleItem() {
     setScheduleItems([...scheduleItems, {weekDay: "", from: "", to: ""}])
-    console.log(scheduleItems)
   }
 
   function handleEditScheduleItem(position: number, field: string, value: string) {

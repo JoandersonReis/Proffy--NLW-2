@@ -47,10 +47,27 @@ export default StyleSheet.create({
     justifyContent: "center"
   },
 
+  profileImageContainer: {
+    position: "relative"
+  },
+
   profileImage: {
     width: 140,
     height: 140,
     borderRadius: 80
+  },
+
+  changeProfileImageButton: {
+    backgroundColor: "#04D361",
+    height: 40,
+    width: 40,
+    borderRadius: 25,
+    alignItems: "center",
+    justifyContent: "center",
+    
+    position: "absolute",
+    bottom: 0,
+    right: 12
   },
   
   profileName: {
@@ -108,7 +125,9 @@ export default StyleSheet.create({
   addNewClassButtonText: {
     fontSize: 14,
     fontFamily: "Archivo SemiBold",
-    color: "#8257E5"
+    color: "#8257E5",
+    paddingHorizontal: 10,
+    paddingTop: 5
   },
 
   timeContainer: {
@@ -129,7 +148,8 @@ export default StyleSheet.create({
   deleteClassButtonText: {
     fontFamily: "Poppins SemiBold",
     fontSize: 12,
-    color: "#E33D3D"
+    color: "#E33D3D",
+    padding: 10
   },
 
   lineDeleteClassButton: {

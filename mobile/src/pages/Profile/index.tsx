@@ -19,6 +19,7 @@ interface ScheduleItemProps {
 
 function Profile() {
   const [ scheduleItems, setScheduleItems ] = useState<ScheduleItemProps[]>([{weekDay: "", from: "", to: ""}])
+  const [ countDelete, setCountDelete ] = useState(0)
   const navigation = useNavigation()
 
   function handleAddScheduleItem() {
@@ -43,7 +44,7 @@ function Profile() {
     updatedScheduleItems.splice(position, 1)
     
     setScheduleItems(updatedScheduleItems)
-    console.log(scheduleItems)
+    setCountDelete(countDelete + 1)
   }
 
   return (
@@ -51,7 +52,12 @@ function Profile() {
       
       <View style={styles.header}>
         <ImageBackground style={styles.profileContainer} source={backgroundProfileImage} resizeMode="contain">
-          <Image style={styles.profileImage} source={{uri: "https://avatars.githubusercontent.com/u/52385035?v=4"}} />
+          <View style={styles.profileImageContainer}>
+            <Image style={styles.profileImage} source={{uri: "https://avatars.githubusercontent.com/u/52385035?v=4"}} />
+            <RectButton style={styles.changeProfileImageButton}>
+              <Icon name="camera" color="#fff" size={20} />
+            </RectButton>
+          </View>
           <Text style={styles.profileName}>Joanderson Reis</Text>
           <Text style={styles.subject}>Matemática</Text>
         </ImageBackground>

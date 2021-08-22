@@ -10,6 +10,7 @@ import Signup from "../pages/Signup"
 import Finished from "../pages/Finished"
 import RecoverPassword from "../pages/RecoverPassword"
 import Profile from "../pages/Profile"
+import Wellcome from "../pages/Wellcome"
 
 const { Navigator, Screen } = createStackNavigator()
 
@@ -17,6 +18,7 @@ function AppStack() {
   return (
     <NavigationContainer>
       <Navigator screenOptions={{headerShown: false}}>
+        <Screen name="Wellcome" component={Wellcome} />
         <Screen name="Login" component={Login} />
         <Screen  name="Signup" component={Signup} />
         <Screen name="Landing" component={Landing} />
