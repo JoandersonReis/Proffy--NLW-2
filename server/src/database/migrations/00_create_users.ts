@@ -10,6 +10,8 @@ export async function up(knex: Knex) {
     table.string("password").notNullable()
     table.string("whatsapp").nullable()
     table.string("bio").nullable()
+    table.string("token").nullable()
+    table.integer("tokenTime").nullable()
   })
 }
 

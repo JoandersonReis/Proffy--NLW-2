@@ -18,5 +18,7 @@ routes.post("/connections", connectionsController.create)
 
 routes.post("/login", usersController.login)
 routes.post("/users", usersController.create)
+routes.post("/reset-password", usersController.resetPassword)
+routes.put("/change-password", usersController.changePassword)
 
 export default routes
