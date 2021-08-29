@@ -12,6 +12,23 @@ interface ScheduleProps {
 
 export default class ClassesController {
   async index(request: Request, response: Response) {
+    const classes = await db("classes")
+      .join("users", "users.id", "=", "classes.user_id")
+      .select([
+        "users.name", 
+        "users.lastname", 
+        "users.email", 
+        "users.whatsapp", 
+        "users.bio", 
+        "users.bio", 
+        "users.avatar", 
+        "classes.*",
+      ])
+
+    return response.status(200).json(classes)
+  }
+
+  async search(request: Request, response: Response) {
     const filters = request.query
 
     const week_day = filters.week_day as string
@@ -37,35 +54,32 @@ export default class ClassesController {
       })
       .where("classes.subject", "=", subject)
       .join("users", "users.id", "=", "classes.user_id")
-      .select(["classes.*", "users.*"])
+      .select([
+        "users.name", 
+        "users.lastname", 
+        "users.email", 
+        "users.whatsapp", 
+        "users.bio", 
+        "users.bio", 
+        "users.avatar", 
+        "classes.*",
+      ])
 
     return response.json(classes)
   }
 
   async create(request: Request, response: Response) {
     const {
-      name,
-      avatar,
-      whatsapp,
-      bio,
       subject,
       cost,
-      schedule
+      schedule,
+      user_id
     } = request.body
   
     // Cria uma transação, ou seja todas as alterações no banco serão feitas ao mesmo tempo. impedindo que uma funcione se a outra der erro
     const trx = await db.transaction() 
   
     try {
-      const insertedUsersIds = await trx("users").insert({
-        name,
-        avatar,
-        bio,
-        whatsapp
-      })
-    
-      const user_id = insertedUsersIds[0]
-    
       const insertedClassesIds = await trx("classes").insert({
         subject,
         cost,
