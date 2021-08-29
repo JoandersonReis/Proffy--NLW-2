@@ -150,4 +150,10 @@ export default class UsersController {
 
     return response.status(500).send()
   }
+
+  async index(request: Request, response: Response) {
+    const [count] = await db("users").where("users.proffy", "=", "true").count()
+
+    return response.status(200).json({totalProffys: count["count(*)"]})
+  }
 }

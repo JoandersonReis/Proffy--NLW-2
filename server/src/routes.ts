@@ -19,6 +19,7 @@ routes.get("/search", classesController.search)
 routes.get("/connections", connectionsController.index)
 routes.post("/connections", connectionsController.create)
 
+routes.get("/users", usersController.index)
 routes.post("/login", usersController.login)
 routes.post("/users", usersController.create)
 routes.post("/reset-password", usersController.resetPassword)
