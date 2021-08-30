@@ -15,6 +15,7 @@ const scheduleController = new ClassScheduleController()
 routes.get("/classes", classesController.index)
 routes.post("/classes", classesController.create)
 routes.get("/search", classesController.search)
+routes.put("/classes", classesController.update)
 
 routes.get("/connections", connectionsController.index)
 routes.post("/connections", connectionsController.create)

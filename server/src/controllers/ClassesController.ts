@@ -60,7 +60,7 @@ export default class ClassesController {
         "users.email", 
         "users.whatsapp", 
         "users.bio", 
-        "users.bio", 
+        "users.bio",
         "users.avatar", 
         "classes.*",
       ])
@@ -73,7 +73,9 @@ export default class ClassesController {
       subject,
       cost,
       schedule,
-      user_id
+      user_id,
+      bio,
+      whatsapp
     } = request.body
   
     // Cria uma transação, ou seja todas as alterações no banco serão feitas ao mesmo tempo. impedindo que uma funcione se a outra der erro
@@ -85,6 +87,14 @@ export default class ClassesController {
         cost,
         user_id
       })
+
+      await trx("users")
+        .where("users.id", "=", user_id)
+        .update({
+          proffy: true,
+          bio,
+          whatsapp
+        })
     
       const class_id = insertedClassesIds[0]
     
@@ -107,6 +117,68 @@ export default class ClassesController {
   
       return response.status(400).json({
         error: "Unexpected error while creating a new class"
+      })
+    }
+  }
+
+  async update(request: Request, response: Response) {
+    const {
+      id,
+      subject,
+      cost,
+      schedule,
+      user_id,
+      name,
+      lastname,
+      avatar,
+      bio,
+      whatsapp,
+      email
+    } = request.body
+  
+    // Cria uma transação, ou seja todas as alterações no banco serão feitas ao mesmo tempo. impedindo que uma funcione se a outra der erro
+    const trx = await db.transaction() 
+  
+    try {
+      await trx("classes")
+        .where("classes.id", "=", id)
+        .update({
+          subject,
+          cost,
+          user_id
+        })
+
+      await trx("users")
+        .where("users.id", "=", user_id)
+        .update({
+          name,
+          lastname,
+          avatar,
+          bio,
+          whatsapp,
+          email
+        })
+    
+      const classSchedule = schedule.map((scheduleItem: ScheduleProps) => {
+        return {
+          week_day: scheduleItem.week_day,
+          from: convertHourToMinutes(scheduleItem.from),
+          to: convertHourToMinutes(scheduleItem.to),
+          class_id: id
+        }
+      })
+    
+      await trx("class_schedule").where("class_schedule.class_id", "=", id).delete()
+      await trx("class_schedule").insert(classSchedule)
+    
+      await trx.commit() // Executa as transações no banco
+    
+      return response.status(201).send()
+    } catch(err) {
+      trx.rollback() // Desfaz qualquer alteração que foi feita no banco durante a execução do trx
+  
+      return response.status(400).json({
+        error: "Unexpected error while updating a new class"
       })
     }
   }
