@@ -9,6 +9,18 @@ interface ScheduleProps {
   from: string
 }
 
+interface ClassProps {
+  avatar: string,
+  name: string,
+  lastname: string,
+  bio: string,
+  email: string,
+  whatsapp: string,
+  subject: string,
+  cost: number,
+  if: number,
+  user_id: number
+}
 
 export default class ClassesController {
   async index(request: Request, response: Response) {
@@ -19,13 +31,19 @@ export default class ClassesController {
         "users.lastname", 
         "users.email", 
         "users.whatsapp", 
-        "users.bio", 
-        "users.bio", 
+        "users.bio",
         "users.avatar", 
         "classes.*",
       ])
 
-    return response.status(200).json(classes)
+      const classesModify = classes.map((item: ClassProps) => {
+        return {
+          ...item,
+          avatar: `http://10.0.0.104:3333/uploads/${item.avatar}`
+        }
+      })
+
+    return response.status(200).json(classesModify)
   }
 
   async search(request: Request, response: Response) {
@@ -59,13 +77,19 @@ export default class ClassesController {
         "users.lastname", 
         "users.email", 
         "users.whatsapp", 
-        "users.bio", 
         "users.bio",
         "users.avatar", 
         "classes.*",
       ])
 
-    return response.json(classes)
+      const classesModify = classes.map((item: ClassProps) => {
+        return {
+          ...item,
+          avatar: `http://10.0.0.104:3333/uploads/${item.avatar}`
+        }
+      })
+
+    return response.json(classesModify)
   }
 
   async create(request: Request, response: Response) {
@@ -97,6 +121,7 @@ export default class ClassesController {
         })
     
       const class_id = insertedClassesIds[0]
+
     
       const classSchedule = schedule.map((scheduleItem: ScheduleProps) => {
         return {
@@ -130,7 +155,6 @@ export default class ClassesController {
       user_id,
       name,
       lastname,
-      avatar,
       bio,
       whatsapp,
       email
@@ -153,7 +177,7 @@ export default class ClassesController {
         .update({
           name,
           lastname,
-          avatar,
+          avatar: request.file?.filename,
           bio,
           whatsapp,
           email

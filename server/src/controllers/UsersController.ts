@@ -19,7 +19,10 @@ export default class UsersController {
     if(user) {
       bcrypt.compare(password, user.password, (err, result) => {
         if(result) {
-          return response.status(200).json(user)
+          return response.status(200).json({
+            ...user,
+            avatar: `http://10.0.0.104:3333/uploads/${user.avatar}`,
+          })
         } else {
           return response.status(400).json({message: "Password Incorrect"})
         }
@@ -30,7 +33,7 @@ export default class UsersController {
   }
 
   async create(request: Request, response: Response) {
-    const { name, lastname, email, password, avatar } = request.body
+    const { name, lastname, email, password } = request.body
 
     const [user] = await db("users")
       .where("users.email", "=", email.toLowerCase())
@@ -44,7 +47,7 @@ export default class UsersController {
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(password, salt, async (err, hash) => {
           await db("users").insert({
-            avatar,
+            avatar: "default",
             name,
             lastname,
             email: email.toLowerCase(),
