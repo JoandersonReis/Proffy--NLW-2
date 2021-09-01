@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { Link } from "react-router-dom"
+import React, { FormEvent, useState, useEffect } from "react"
+import { Link, useHistory } from "react-router-dom"
 
 import "./styles.css"
 
@@ -8,8 +8,26 @@ import showPasswordIcon from "../../assets/images/icons/show-password.png"
 import hiddenPasswordIcon from "../../assets/images/icons/hidden-password.png"
 import PageBanner from "../../components/PageBanner"
 
+import api from "../../services/api"
+
 function Login() {
   const [ showPassword, setShowPassword ] = useState(false)
+  const [ email, setEmail ] = useState("")
+  const [ password, setPassword ] = useState("")
+  const [ isRemember, setIsRemember ] = useState(true)
+  const [ errorMessage, setErrorMessage ] = useState()
+
+  const [ isValid, setIsValid ] = useState(false)
+
+  const userLocalStorage = window.localStorage
+  const userSessionStorage = window.sessionStorage
+  const history = useHistory()
+
+  useEffect(() => {
+    if(userLocalStorage.length == 5) {
+      history.push("/home")
+    }
+  }, [])
 
   function handleShowPassword() {
     if(showPassword) {
@@ -19,19 +37,76 @@ function Login() {
     }
   }
 
+  function handleFilterUserInfo() {
+    if(email.length > 8 && email.split("@").length > 1 && password.length >= 6) {
+      setIsValid(true)
+    } else {
+      setIsValid(false)
+    }
+  }
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault()
+
+    const response = await api.post("/login", {
+      email,
+      password
+    })
+
+    if(response.status == 202) {
+      setErrorMessage(response.data)
+    }
+
+    if(response.status == 200) {
+      if(isRemember) {
+        userLocalStorage.setItem("id", response.data.id)
+        userLocalStorage.setItem("avatar", response.data.avatar)
+        userLocalStorage.setItem("email", response.data.email)
+        userLocalStorage.setItem("name", response.data.name)
+        userLocalStorage.setItem("lastname", response.data.lastname)
+      } else {
+        userSessionStorage.setItem("id", response.data.id)
+        userSessionStorage.setItem("avatar", response.data.avatar)
+        userSessionStorage.setItem("email", response.data.email)
+        userSessionStorage.setItem("name", response.data.name)
+        userSessionStorage.setItem("lastname", response.data.lastname)
+      }
+
+      history.push("/home")
+    }
+  }
+
   return (
     <div id="page-login-container">
       <div className="container">
         <PageBanner />
 
         <main>
-          <form>
+          <form onSubmit={handleSubmit}>
             <h2>Fazer Login</h2>
             <div className="input-container">
-              <input type="email" placeholder="E-mail" required />
+              <input 
+                type="email" 
+                placeholder="E-mail" 
+                required
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value)
+                  handleFilterUserInfo()
+                }}
+              />
             </div>
             <div className="input-container">
-              <input type={showPassword? "text":"password"} placeholder="Senha" required />
+              <input 
+                type={showPassword? "text":"password"} 
+                placeholder="Senha" 
+                required
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value)
+                  handleFilterUserInfo()
+                }}
+              />
               <button 
                 type="button" 
                 className="show-password" 
@@ -46,7 +121,8 @@ function Login() {
                 <input 
                   className="remember-checkbox" 
                   type="checkbox" id="remember" 
-                  defaultChecked 
+                  defaultChecked
+                  onChange={(e) => setIsRemember(e.target.checked)}
                 />
                 <label htmlFor="remember">Lembrar-me</label>
               </div>
@@ -54,7 +130,13 @@ function Login() {
               <Link to="/recover-password">Esqueci minha senha</Link>
             </div>
 
-            <button type="submit" className="button" disabled>Entrar</button>
+            <button 
+              type="submit" 
+              className={isValid? "button finished":"button"} 
+              disabled={isValid? false:true}
+            >
+              Entrar
+            </button>
           </form>
           
           <footer>

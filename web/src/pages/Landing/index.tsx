@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import api from "../../services/api"
 
 import "./styles.css"
@@ -16,13 +16,28 @@ import logoutIcon from "../../assets/images/icons/logout.svg"
 function Landing() {
   const [ totalConnections, setTotalConnections ] = useState(0)
 
+  const userLocalStorage = window.localStorage
+  const userSessionStorage = window.sessionStorage
+  const history = useHistory()
+
   useEffect(() => {
     api.get("connections").then(response => {
       const { total } = response.data
 
       setTotalConnections(total)
+      
+      if(userLocalStorage.length == 0 && userSessionStorage.length == 0) {
+        history.push("/")
+      }
     })
   }, [])
+
+  function handleLogout() {
+    userLocalStorage.clear()
+    userSessionStorage.clear()
+
+    history.push("/")
+  }
 
   return (
     <div id="page-landing">
@@ -34,7 +49,7 @@ function Landing() {
               Joanderson Reis
             </Link>
 
-            <button type="button"><img src={logoutIcon} alt="Botão de sair" /></button>
+            <button type="button" onClick={handleLogout}><img src={logoutIcon} alt="Botão de sair" /></button>
           </header>
 
           <div className="logo-container">
