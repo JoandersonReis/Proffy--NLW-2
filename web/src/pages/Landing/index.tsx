@@ -8,11 +8,11 @@ import landingImg from "../../assets/images/landing.svg"
 import studyIcon from "../../assets/images/icons/study.svg"
 import giveClassesIcon from "../../assets/images/icons/give-classes.svg"
 import purpleHeartIcon from "../../assets/images/icons/purple-heart.svg"
-import logoutIcon from "../../assets/images/icons/logout.svg"
+
 
 import api from "../../services/api"
-import defineStorageInfo from "../../utils/defineStorageInfo"
 import "./styles.css"
+import TopBar from "../../components/TopBar"
 
 function Landing() {
   const [ totalConnections, setTotalConnections ] = useState(0)
@@ -33,29 +33,11 @@ function Landing() {
     })
   }, [])
 
-  function handleLogout() {
-    userLocalStorage.clear()
-    userSessionStorage.clear()
-
-    history.push("/")
-  }
-
   return (
     <div id="page-landing">
       <div id="page-landing-content" className="container">
         <main>
-          <header>
-            <Link to="/profile" className="profile">
-              <img 
-                src={String(defineStorageInfo("avatar"))} 
-                alt="Imagem de perfil" 
-              />
-              
-              {defineStorageInfo("name")} {defineStorageInfo("lastname")}
-            </Link>
-
-            <button type="button" onClick={handleLogout}><img src={logoutIcon} alt="Botão de sair" /></button>
-          </header>
+          <TopBar />
 
           <div className="logo-container">
             <img src={logoImg} alt="Proffy" />
