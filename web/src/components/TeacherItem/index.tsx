@@ -1,14 +1,17 @@
-import React from "react"
+import React, { useState } from "react"
 
 import "./styles.css"
 
 import whatsappIcon from "../../assets/images/icons/whatsapp.svg"
 import api from "../../services/api"
+import { useEffect } from "react"
+import convertNumberInWeekDay from "../../utils/convertNumberInWeekDay"
 
 interface TeacherItemProps {
   teacher : {
     id: number,
     name: string,
+    lastname: string,
     subject: string,
     cost: number,
     avatar: string,
@@ -17,19 +20,38 @@ interface TeacherItemProps {
   }
 }
 
+interface ScheduleProps {
+  id: number,
+  week_day: number,
+  from: number,
+  to: number
+}
+
 const TeacherItem: React.FC<TeacherItemProps> = ({teacher}) => {
+  const [ schedule, setSchedule ] = useState<ScheduleProps[]>([])
+
   function createNewConnection() {
     api.post("connections", {
       user_id: teacher.id
     })
   }
 
+  useEffect(() => {
+    api.get("/schedules", {
+      params: {
+        class_id: teacher.id
+      }
+    }).then(response => (
+      setSchedule(response.data)
+    ))
+  }, [])
+
   return (
     <article className="teacher-item">
       <header>
         <img src={teacher.avatar} alt="Imagem Proffy" />
         <div>
-          <strong>{teacher.name}</strong>
+          <strong>{teacher.name} {teacher.lastname}</strong>
           <span>{teacher.subject}</span>
         </div>
       </header>
@@ -37,55 +59,14 @@ const TeacherItem: React.FC<TeacherItemProps> = ({teacher}) => {
       <p>{teacher.bio}</p>
 
       <div className="schedule-classes-container">
-
-        <div className="schedule-class">
-          <p>Dia</p>
-          <h3>Terça</h3>
-          <p>Horário</p>
-          <h3>8h - 18h</h3>
-        </div>
-
-        <div className="schedule-class">
-          <p>Dia</p>
-          <h3>Domingo</h3>
-          <p>Horário</p>
-          <h3>8h - 18h</h3>
-        </div>
-
-        <div className="schedule-class">
-          <p>Dia</p>
-          <h3>Sábado</h3>
-          <p>Horário</p>
-          <h3>8h - 18h</h3>
-        </div>
-
-        <div className="schedule-class">
-          <p>Dia</p>
-          <h3>Segunda</h3>
-          <p>Horário</p>
-          <h3>8h - 18h</h3>
-        </div>
-
-        <div className="schedule-class">
-          <p>Dia</p>
-          <h3>Segunda</h3>
-          <p>Horário</p>
-          <h3>8h - 18h</h3>
-        </div>
-
-        <div className="schedule-class">
-          <p>Dia</p>
-          <h3>Segunda</h3>
-          <p>Horário</p>
-          <h3>8h - 18h</h3>
-        </div>
-
-        <div className="schedule-class">
-          <p>Dia</p>
-          <h3>Segunda</h3>
-          <p>Horário</p>
-          <h3>8h - 18h</h3>
-        </div>
+        {schedule.map(item => (
+          <div className="schedule-class">
+            <p>Dia</p>
+            <h3>{convertNumberInWeekDay(item.week_day)}</h3>
+            <p>Horário</p>
+            <h3>{item.from / 60}h - {item.to / 60}h</h3>
+          </div>
+        ))}
       </div>
 
       <footer>

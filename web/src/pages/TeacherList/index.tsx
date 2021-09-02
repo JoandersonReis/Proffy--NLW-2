@@ -1,9 +1,10 @@
-import React, { FormEvent, useState } from "react"
+import React, { FormEvent, useState, useEffect } from "react"
 
 import PageHeader from "../../components/PageHeader"
 import TeacherItem from "../../components/TeacherItem"
 import Input from "../../components/Input"
 import Select from "../../components/Select"
+import BoxMessage from "../../components/BoxMessage"
 import api from "../../services/api"
 
 import searchIcon from "../../assets/images/icons/search.png"
@@ -15,13 +16,16 @@ function TeacherList() {
   const [ week_day, setWeek_day ] = useState("")
   const [ subject, setSubject ] = useState("")
   const [ time, setTime ] = useState("")
+  const [ totalProffys, setTotalProffys ] = useState(0)
+  const [ reloadEffect, setReloadEffect ] = useState(0)
+  const [ errorMessage, setErrorMessage ] = useState(false)
 
   const [ teachers, setTeachers ] = useState([])
 
   function handleSearchTeachers(e: FormEvent) {
     e.preventDefault()
 
-    api.get("classes", {
+    api.get("search", {
       params: {
         week_day,
         subject,
@@ -29,19 +33,42 @@ function TeacherList() {
       }
     }).then(response => {
       setTeachers(response.data)
+
+      if(response.data.length == 0) {
+        errorMessage? setErrorMessage(false):setErrorMessage(true)
+
+        setWeek_day("")
+        setSubject("")
+        setTime("")
+      }
     }).catch(() => {
       alert("Não foi possivel carregar os Proffys!")
     })
   }
 
+  function loadingTeachers() {
+    api.get("classes").then(response => {
+      setTeachers(response.data)
+    })
+
+    api.get("users").then(response => {
+      setTotalProffys(response.data.totalProffys)
+    })
+  }
+
+  useEffect(loadingTeachers, [errorMessage])
+
   return (
     <div id="page-teacher-list" className="container">
+      {errorMessage && 
+        <BoxMessage text="Nenhum Proffy encontrado" seconds={2} visible={errorMessage} />
+      }
       <PageHeader 
         title="Estes são os proffys disponíveis." 
         sideComponent={
           <div className="total-proffys">
             <img src={smileIcon} alt="Emoji de sorriso" />
-            <p className="total-proffys-text">Nós Temos 32 Proffys.</p>
+            <p className="total-proffys-text">Nós Temos {totalProffys} Proffys.</p>
           </div>
         }
       >
@@ -94,13 +121,9 @@ function TeacherList() {
       </PageHeader>
 
       <main>
-      {teachers.length > 0? 
-          teachers.map((teacher: any) => {
-            return <TeacherItem key={teacher.id} teacher={teacher} />
-          })
-          : 
-          <p className="empty-proffys">Nenhum professor encontrado em sua pesquisa.</p>
-        }
+        {teachers.map((teacher: any) => {
+          return <TeacherItem key={teacher.id} teacher={teacher} />
+        })}
       </main>
     </div>
   )

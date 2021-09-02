@@ -1,0 +1,18 @@
+.box-message-container {
+  position: absolute;
+  background-color: var(--color-secundary);
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 4rem;
+}
+
+.not-display {
+  display: none;
+}
+
+.box-message-container p {
+  font: 700 1.6rem Poppins;
+  color: #fff
+}
