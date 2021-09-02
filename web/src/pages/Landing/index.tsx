@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { Link, useHistory } from "react-router-dom"
-import api from "../../services/api"
 
-import "./styles.css"
 
 import logoImg from "../../assets/images/logo.svg"
 import landingImg from "../../assets/images/landing.svg"
@@ -12,6 +10,9 @@ import giveClassesIcon from "../../assets/images/icons/give-classes.svg"
 import purpleHeartIcon from "../../assets/images/icons/purple-heart.svg"
 import logoutIcon from "../../assets/images/icons/logout.svg"
 
+import api from "../../services/api"
+import defineStorageInfo from "../../utils/defineStorageInfo"
+import "./styles.css"
 
 function Landing() {
   const [ totalConnections, setTotalConnections ] = useState(0)
@@ -45,8 +46,12 @@ function Landing() {
         <main>
           <header>
             <Link to="/profile" className="profile">
-              <img src="https://avatars.githubusercontent.com/u/52385035?v=4" alt="Imagem de perfil" />
-              Joanderson Reis
+              <img 
+                src={String(defineStorageInfo("avatar"))} 
+                alt="Imagem de perfil" 
+              />
+              
+              {defineStorageInfo("name")} {defineStorageInfo("lastname")}
             </Link>
 
             <button type="button" onClick={handleLogout}><img src={logoutIcon} alt="Botão de sair" /></button>
