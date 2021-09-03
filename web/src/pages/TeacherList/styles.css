@@ -59,14 +59,6 @@
   width: 90%;
 }
 
-#page-teacher-list main .empty-proffys {
-  display: block;
-  margin: 0 auto;
-  max-width: 25rem;
-  text-align: center;
-  margin-top: 8rem;
-}
-
 @media (min-width: 700px) {
   #page-teacher-list {
     max-width: 100%;

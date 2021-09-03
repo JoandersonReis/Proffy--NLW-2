@@ -9,13 +9,15 @@ import hiddenPasswordIcon from "../../assets/images/icons/hidden-password.png"
 import PageBanner from "../../components/PageBanner"
 
 import api from "../../services/api"
+import BoxMessage from "../../components/BoxMessage"
 
 function Login() {
   const [ showPassword, setShowPassword ] = useState(false)
   const [ email, setEmail ] = useState("")
   const [ password, setPassword ] = useState("")
   const [ isRemember, setIsRemember ] = useState(true)
-  const [ errorMessage, setErrorMessage ] = useState()
+  const [ errorMessage, setErrorMessage ] = useState<string>("")
+  const [ isErrorMessage, setIsErrorMessage ] = useState(false)
 
   const [ isValid, setIsValid ] = useState(false)
 
@@ -54,7 +56,9 @@ function Login() {
     })
 
     if(response.status == 202) {
-      setErrorMessage(response.data)
+      setErrorMessage(response.data.message)
+      setIsErrorMessage(false)
+      setIsErrorMessage(true)
     }
 
     if(response.status == 200) {
@@ -78,6 +82,9 @@ function Login() {
 
   return (
     <div id="page-login-container">
+      {isErrorMessage && 
+        <BoxMessage text={errorMessage} seconds={2} />
+      }
       <div className="container">
         <PageBanner />
 

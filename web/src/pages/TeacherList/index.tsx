@@ -61,7 +61,7 @@ function TeacherList() {
   return (
     <div id="page-teacher-list" className="container">
       {errorMessage && 
-        <BoxMessage text="Nenhum Proffy encontrado" seconds={2} visible={errorMessage} />
+        <BoxMessage text="Nenhum Proffy encontrado" seconds={2} />
       }
       <PageHeader 
         title="Estes são os proffys disponíveis." 

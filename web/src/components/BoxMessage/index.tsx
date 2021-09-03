@@ -5,11 +5,10 @@ import "./styles.css"
 interface BoxMessageProps {
   text: string,
   seconds: number,
-  visible: boolean
 }
 
-const BoxMessage: React.FC<BoxMessageProps> = ({text, seconds, visible}) => {
-  const [ isDisplay, setIsDisplay ] = useState(visible)
+const BoxMessage: React.FC<BoxMessageProps> = ({text, seconds}) => {
+  const [ isDisplay, setIsDisplay ] = useState(true)
 
   useEffect(() => {
     setTimeout(() => {
