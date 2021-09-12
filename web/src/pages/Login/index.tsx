@@ -39,7 +39,7 @@ function Login() {
     }
   }
 
-  function handleFilterUserInfo() {
+  function filterUserInfo() {
     if(email.length > 8 && email.split("@").length > 1 && password.length >= 6) {
       setIsValid(true)
     } else {
@@ -99,7 +99,7 @@ function Login() {
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value)
-                  handleFilterUserInfo()
+                  filterUserInfo()
                 }}
               />
             </div>
@@ -111,7 +111,7 @@ function Login() {
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value)
-                  handleFilterUserInfo()
+                  filterUserInfo()
                 }}
               />
               <button 

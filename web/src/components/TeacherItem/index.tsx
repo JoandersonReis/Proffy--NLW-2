@@ -64,7 +64,7 @@ const TeacherItem: React.FC<TeacherItemProps> = ({teacher}) => {
             <p>Dia</p>
             <h3>{convertNumberInWeekDay(item.week_day)}</h3>
             <p>Horário</p>
-            <h3>{item.from / 60}h - {item.to / 60}h</h3>
+            <h3>{item.from / 60}H - {item.to / 60}H</h3>
           </div>
         ))}
       </div>

@@ -61,6 +61,7 @@
 
 .teacher-item .schedule-classes-container .schedule-class p {
   font: 400 1.2rem Poppins;
+  color: var(--color-secundary-dark)
 }
 
 .teacher-item .schedule-classes-container .schedule-class h3 {

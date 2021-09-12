@@ -6,6 +6,7 @@ import Input from "../../components/Input"
 import PageHeader from "../../components/PageHeader"
 import Textarea from "../../components/Textarea"
 import Select from "../../components/Select"
+import defineStorageInfo from "../../utils/defineStorageInfo"
 
 import warningIcon from "../../assets/images/icons/warning.svg"
 import rocketIcon from "../../assets/images/icons/rocket.svg"
@@ -16,11 +17,8 @@ function TeacherForm() {
   const history = useHistory()
   const [ scheduleItems, setScheduleItems ] = useState([{ week_day: 0, from: "", to: "" },])
 
-  const [ name, setName ] = useState("")
-  const [ avatar, setAvatar ] = useState("")
   const [ whatsapp, setWhatsapp ] = useState("")
   const [ bio, setBio ] = useState("")
-
   const [ subject, setSubject ] = useState("")
   const [ cost, setCost ] = useState("")
 
@@ -35,17 +33,14 @@ function TeacherForm() {
     e.preventDefault()
 
     api.post("classes", {
-      name,
-      avatar,
+      user_id: defineStorageInfo("id"),
       whatsapp,
       bio,
       subject,
       cost: Number(cost),
       schedule: scheduleItems
     }).then(response => {
-      alert("Cadastro realizado com sucesso")
-
-      history.goBack()
+      history.push("/finished-register-class")
     }).catch(() => {
       alert("Erro no cadastro!")
     })
@@ -83,8 +78,8 @@ function TeacherForm() {
 
             <div className="profile-content">
               <div className="profile">
-                <img src="https://avatars.githubusercontent.com/u/52385035?v=4" alt="Imagem de perfil" />
-                <span className="username">Joanderson Reis</span>
+                <img src={String(defineStorageInfo("avatar"))} alt="Imagem de perfil" />
+                <span className="username">{defineStorageInfo("name")} {defineStorageInfo("lastname")}</span>
               </div>
 
               <div className="input-container">
@@ -97,6 +92,7 @@ function TeacherForm() {
                   onChange={(e) => setWhatsapp(e.target.value)}
                   type="text"
                   placeholder="(DDD) 9 9999-9999"
+                  required
                 />
               </div>
             </div>
@@ -105,7 +101,8 @@ function TeacherForm() {
               name="bio" 
               label="Biografia" 
               value={bio} 
-              onChange={(e) => { setBio(e.target.value) }} 
+              onChange={(e) => { setBio(e.target.value) }}
+              required
             />
           </fieldset>
 
@@ -140,6 +137,7 @@ function TeacherForm() {
                   name="cost" 
                   value={cost}
                   onChange={(e) => { setCost(e.target.value) }}
+                  required
                 />
               </div>
             </div>
@@ -177,6 +175,7 @@ function TeacherForm() {
                   type="time"
                   value={scheduleItem.from}
                   onChange={e => setScheduleItemValue(index, "from", e.target.value)}
+                  required
                 />
                 <Input 
                   name="to" 
@@ -184,6 +183,7 @@ function TeacherForm() {
                   type="time"
                   value={scheduleItem.to}
                   onChange={e => setScheduleItemValue(index, "to", e.target.value)}
+                  required
                 />
               </div>
             ))}
