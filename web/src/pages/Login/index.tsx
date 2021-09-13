@@ -68,12 +68,14 @@ function Login() {
         userLocalStorage.setItem("email", response.data.email)
         userLocalStorage.setItem("name", response.data.name)
         userLocalStorage.setItem("lastname", response.data.lastname)
+        userLocalStorage.setItem("proffy", response.data.proffy)
       } else {
         userSessionStorage.setItem("id", response.data.id)
         userSessionStorage.setItem("avatar", response.data.avatar)
         userSessionStorage.setItem("email", response.data.email)
         userSessionStorage.setItem("name", response.data.name)
         userSessionStorage.setItem("lastname", response.data.lastname)
+        userSessionStorage.setItem("proffy", response.data.proffy)
       }
 
       history.push("/home")

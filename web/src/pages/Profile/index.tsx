@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react"
+import React, { FormEvent, useState, useEffect } from "react"
 import PageHeader from "../../components/PageHeader"
 import { useHistory } from "react-router-dom"
 
@@ -8,27 +8,69 @@ import Textarea from "../../components/Textarea"
 import Select from "../../components/Select"
 import Input from "../../components/Input"
 import DropZone from "../../components/DropZone"
+import defineStorageInfo from "../../utils/defineStorageInfo"
+import convertMinutesInHours from "../../utils/convertMinutesInHours"
 
 import warningIcon from "../../assets/images/icons/warning.svg"
 
-
 import "./styles.css"
+
+interface ScheduleProps {
+  week_day: number,
+  to: number,
+  from: number
+}
+
+interface ScheduleItemsProps {
+  week_day: number,
+  to: string,
+  from: string
+}
 
 function Profile() {
   const history = useHistory()
   const [ selectedFile, setSelectedFile ] = useState<File>()
   const [ selectFileURL, setSelectedFileURL ] = useState("https://avatars.githubusercontent.com/u/52385035?v=4")
-  const [ scheduleItems, setScheduleItems ] = useState([{ week_day: 0, from: "", to: "" },])
+  const [ scheduleItems, setScheduleItems ] = useState([{ week_day: 0, from: "", to: "" }])
+  const [ classId, setClassId ] = useState("")
+  const [ modify, setModify ] = useState(0)
 
   const [ name, setName ] = useState("")
   const [ lastname, setLastname ] = useState("")
   const [ email, setEmail ] = useState("")
-  const [ avatar, setAvatar ] = useState("")
   const [ whatsapp, setWhatsapp ] = useState("")
   const [ bio, setBio ] = useState("")
 
   const [ subject, setSubject ] = useState("")
   const [ cost, setCost ] = useState("")
+
+  async function loadClasses() {
+    const response = await api.get(`/classes/${defineStorageInfo("id")}`)
+
+    setSubject(response.data.subject)
+    setWhatsapp(response.data.whatsapp)
+    setBio(response.data.bio)
+    setCost(response.data.cost)
+    setClassId(String(response.data.id))
+
+    const schedulesData = response.data.schedules.map((schedule: ScheduleProps) => {
+      return {
+        week_day: schedule.week_day,
+        to: convertMinutesInHours(schedule.to),
+        from: convertMinutesInHours(schedule.from)
+      }
+    })
+    setScheduleItems(schedulesData)
+  }
+
+  useEffect(() => {
+    setName(String(defineStorageInfo("name")))
+    setLastname(String(defineStorageInfo("lastname")))
+    setSelectedFileURL(String(defineStorageInfo("avatar")))
+    setEmail(String(defineStorageInfo("email")))
+
+    loadClasses()
+  }, [])
 
   function addNewScheduleItem() {
     setScheduleItems([
@@ -37,12 +79,35 @@ function Profile() {
     ])
   }
 
+  function handleDeleteScheduleItem(position: number) {
+    const scheduleArray = scheduleItems
+
+    scheduleItems.splice(position)
+
+    setScheduleItems(scheduleArray)
+
+    setModify(modify + 1)
+  }
+
   function handleCreateClass(e: FormEvent) {
     e.preventDefault()
 
+    const data = new FormData()
+
+    data.append("name", name)
+    data.append("lastname", lastname)
+    data.append("id", String(classId))
+    data.append("user_id", String(defineStorageInfo("id")))
+    data.append("subject", subject)
+    data.append("cost", cost)
+    data.append("bio", bio)
+    data.append("email", email)
+    data.append("name", name)
+    data.append("avatar", selectedFile)
+
+
     api.post("classes", {
       name,
-      avatar,
       whatsapp,
       bio,
       subject,
@@ -81,8 +146,8 @@ function Profile() {
             />
             <DropZone onSelectedFile={setSelectedFile} onSelectedFileURL={setSelectedFileURL} />
           </div>
-          <h2 className="profile-name">Joanderson Reis</h2>
-          <p className="subject">Matemática</p>
+          <h2 className="profile-name">{name} {lastname}</h2>
+          <p className="subject">{subject}</p>
         </div>
       </PageHeader>
 
@@ -228,6 +293,11 @@ function Profile() {
                   value={scheduleItem.to}
                   onChange={e => setScheduleItemValue(index, "to", e.target.value)}
                 />
+                <button 
+                  type="button" 
+                  className="delete-schedule-button"
+                  onClick={() => handleDeleteScheduleItem(index)}
+                >-</button>
               </div>
             ))}
           </fieldset>

@@ -149,6 +149,36 @@
   padding: 0 4rem;
 }
 
+#page-profile main fieldset .schedule-item {
+  margin-bottom: 1.6rem;
+}
+
+#page-profile main fieldset .schedule-item .delete-schedule-button {
+  border: none;
+  background: none;
+  color: #E33D3D;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font: 700 2rem Poppins;
+
+  cursor: pointer;
+  padding: 2rem;
+  height: 4.4rem;
+
+  align-self: flex-end;
+  margin-left: 0.4rem;
+  transition: 0.2s ease-in;
+}
+
+#page-profile main fieldset .schedule-item .delete-schedule-button:hover {
+  background-color: #E33D3D;
+  border-radius: 0.2rem;
+  color: #fff;
+}
+
 #page-profile main label {
   color: var(--color-text-complement)
 }

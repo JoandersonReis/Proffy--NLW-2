@@ -13,6 +13,7 @@ import purpleHeartIcon from "../../assets/images/icons/purple-heart.svg"
 import api from "../../services/api"
 import "./styles.css"
 import TopBar from "../../components/TopBar"
+import defineStorageInfo from "../../utils/defineStorageInfo"
 
 function Landing() {
   const [ totalConnections, setTotalConnections ] = useState(0)
@@ -59,11 +60,12 @@ function Landing() {
               <img src={studyIcon} alt="Estudar" />
               Estudar
             </Link>
-
-            <Link to="/give-classes" className="give-classes">
-              <img src={giveClassesIcon} alt="Dar Aulas" />
-              Dar Aulas
-            </Link>
+            {Number(defineStorageInfo("proffy")) != 1?
+              <Link to="/give-classes" className="give-classes">
+                <img src={giveClassesIcon} alt="Dar Aulas" />
+                Dar Aulas
+              </Link>:null
+            }
           </div>
 
           <span className="total-connections">
