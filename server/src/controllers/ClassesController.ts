@@ -23,6 +23,28 @@ interface ClassProps {
 }
 
 export default class ClassesController {
+  async show(request: Request, response:Response) {
+    const { id } = request.params
+
+    const [classes] = await db("classes")
+      .where("classes.user_id", "=", id)
+      .select("*")
+
+    const [user] = await db("users")
+      .where("users.id", "=", id)
+      .select(["users.whatsapp", "users.bio"])
+
+    const schedules = await db("class_schedule")
+      .where("class_schedule.class_id", "=", classes.id)
+      .select(["class_schedule.week_day", "class_schedule.from", "class_schedule.to"])
+
+    return response.status(200).json({
+      ...user,
+      ...classes,
+      schedules
+    })
+  }
+
   async index(request: Request, response: Response) {
     const classes = await db("classes")
       .join("users", "users.id", "=", "classes.user_id")
@@ -39,7 +61,7 @@ export default class ClassesController {
       const classesModify = classes.map((item: ClassProps) => {
         return {
           ...item,
-          avatar: `http://10.0.0.104:3333/uploads/${item.avatar}`
+          avatar: `http://192.168.1.102:3333/uploads/${item.avatar}`
         }
       })
 
@@ -85,7 +107,7 @@ export default class ClassesController {
       const classesModify = classes.map((item: ClassProps) => {
         return {
           ...item,
-          avatar: `http://10.0.0.104:3333/uploads/${item.avatar}`
+          avatar: `http://192.168.1.102:3333/uploads/${item.avatar}`
         }
       })
 
@@ -159,6 +181,7 @@ export default class ClassesController {
       whatsapp,
       email
     } = request.body
+
   
     // Cria uma transação, ou seja todas as alterações no banco serão feitas ao mesmo tempo. impedindo que uma funcione se a outra der erro
     const trx = await db.transaction() 
@@ -183,11 +206,13 @@ export default class ClassesController {
           email
         })
     
-      const classSchedule = schedule.map((scheduleItem: ScheduleProps) => {
+      const classSchedule = schedule.map((scheduleItem: string) => {
+        const scheduleObject = JSON.parse(scheduleItem)
+
         return {
-          week_day: scheduleItem.week_day,
-          from: convertHourToMinutes(scheduleItem.from),
-          to: convertHourToMinutes(scheduleItem.to),
+          week_day: scheduleObject.week_day,
+          from: convertHourToMinutes(scheduleObject.from),
+          to: convertHourToMinutes(scheduleObject.to),
           class_id: id
         }
       })

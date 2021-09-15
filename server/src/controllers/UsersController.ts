@@ -14,21 +14,25 @@ export default class UsersController {
 
     const [user] = await db("users")
       .where("users.email", "=", email)
-      .select(["users.avatar", "users.email", "users.id", "users.name",  "users.lastname", "users.password"])
+      .select(["users.avatar", "users.email", "users.id", "users.name",  "users.lastname", "users.password", "users.proffy"])
       
     if(user) {
       bcrypt.compare(password, user.password, (err, result) => {
         if(result) {
           return response.status(200).json({
-            ...user,
-            avatar: `http://10.0.0.104:3333/uploads/${user.avatar}`,
+            name: user.name,
+	          lastname: user.lastname,
+	          email: user.email,
+	          id: user.id,
+            avatar: `http://192.168.1.102:3333/uploads/${user.avatar}`,
+            proffy: user.proffy
           })
         } else {
-          return response.status(400).json({message: "Password Incorrect"})
+          return response.status(202).json({message: "Senha Incorreta"})
         }
       })
     } else {
-      return response.status(404).json({message: "Email incorrect"})
+      return response.status(202).json({message: "Email ou senha Incorretos"})
     }
   }
 
@@ -40,21 +44,25 @@ export default class UsersController {
       .select("*")
 
     if(user) {
-      return response.json({"message": "E-mail aready exists!"})
+      return response.status(202).json({message: "E-mail ja existe!"})
     }
 
     try {
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(password, salt, async (err, hash) => {
-          await db("users").insert({
-            avatar: "default",
-            name,
-            lastname,
-            email: email.toLowerCase(),
-            password: hash,
+      if(name && lastname && email && password) {
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(password, salt, async (err, hash) => {
+            await db("users").insert({
+              avatar: "default.png",
+              name,
+              lastname,
+              email: email.toLowerCase(),
+              password: hash,
+            })
           })
         })
-      })
+      } else {
+        return response.status(202).json({message: "Preencha todos os campos"})
+      }
     } catch(err) {
       return response.status(400).json({
         message: "Internal error, try again."
@@ -62,9 +70,7 @@ export default class UsersController {
     }
 
 
-    return response.status(201).json({
-      message: "User create successfull"
-    })
+    return response.status(201).send()
   }
 
   async resetPassword(request: Request, response: Response) {
@@ -120,7 +126,7 @@ export default class UsersController {
       return response.status(200).send()
     }
 
-    return response.status(404).json({message: "Email not found"})
+    return response.status(202).json({message: "Email não existe"})
   }
 
   async changePassword(request: Request, response: Response) {

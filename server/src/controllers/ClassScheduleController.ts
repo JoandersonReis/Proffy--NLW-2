@@ -8,8 +8,8 @@ export default class ClassScheduleController {
 
     const schedules = await db("class_schedule")
       .where<any>("class_schedule.class_id", "=", class_id)
-      .select("*")
-
+      .select(["class_schedule.week_day", "class_schedule.from", "class_schedule.to"])
+    
     return response.status(200).json(schedules)
   }
 }
