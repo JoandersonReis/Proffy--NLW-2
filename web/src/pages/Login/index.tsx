@@ -26,7 +26,7 @@ function Login() {
   const history = useHistory()
 
   useEffect(() => {
-    if(userLocalStorage.length == 5) {
+    if(userLocalStorage.id) {
       history.push("/home")
     }
   }, [])

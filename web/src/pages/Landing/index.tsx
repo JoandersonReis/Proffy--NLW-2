@@ -11,15 +11,16 @@ import purpleHeartIcon from "../../assets/images/icons/purple-heart.svg"
 
 
 import api from "../../services/api"
-import "./styles.css"
 import TopBar from "../../components/TopBar"
+
 import defineStorageInfo from "../../utils/defineStorageInfo"
+import indenfyLogged from "../../utils/indenfyLogged"
+
+import "./styles.css"
 
 function Landing() {
   const [ totalConnections, setTotalConnections ] = useState(0)
 
-  const userLocalStorage = window.localStorage
-  const userSessionStorage = window.sessionStorage
   const history = useHistory()
 
   useEffect(() => {
@@ -28,7 +29,7 @@ function Landing() {
 
       setTotalConnections(total)
       
-      if(userLocalStorage.length == 0 && userSessionStorage.length == 0) {
+      if(!indenfyLogged()) {
         history.push("/")
       }
     })

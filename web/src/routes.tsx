@@ -11,6 +11,7 @@ import RecoverPassword from "./pages/RecoverPassword"
 import FinishedRecoverPassword from "./pages/FinishedRecoverPassword"
 import Profile from "./pages/Profile"
 import FinishedRegisterClasses from "./pages/FinishedRegisterClass"
+import ChangePassword from "./pages/ChangePassword"
 
 function Routes() {
   return (
@@ -24,6 +25,7 @@ function Routes() {
       <Route path="/finished-register-class" component={FinishedRegisterClasses} />
       <Route path="/recover-password" component={RecoverPassword} />
       <Route path="/finished-recover-password" component={FinishedRecoverPassword} />
+      <Route path="/reset-password/:token" component={ChangePassword}/>
       <Route path="/profile" component={Profile} />
     </BrowserRouter>
   )

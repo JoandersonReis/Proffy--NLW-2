@@ -2,7 +2,6 @@ import React, { FormEvent, useState, useEffect } from "react"
 import PageHeader from "../../components/PageHeader"
 import { useHistory } from "react-router-dom"
 
-
 import api from "../../services/api"
 import Textarea from "../../components/Textarea"
 import Select from "../../components/Select"
@@ -14,6 +13,8 @@ import convertMinutesInHours from "../../utils/convertMinutesInHours"
 import warningIcon from "../../assets/images/icons/warning.svg"
 
 import "./styles.css"
+import BoxMessage from "../../components/BoxMessage"
+import indenfyLogged from "../../utils/indenfyLogged"
 
 interface ScheduleProps {
   week_day: number,
@@ -21,19 +22,17 @@ interface ScheduleProps {
   from: number
 }
 
-interface ScheduleItemsProps {
-  week_day: number,
-  to: string,
-  from: string
-}
-
 function Profile() {
   const history = useHistory()
+  const userLocalStorage = window.localStorage
+  const userSessionStorage = window.sessionStorage
+
   const [ selectedFile, setSelectedFile ] = useState<File>()
   const [ selectFileURL, setSelectedFileURL ] = useState("https://avatars.githubusercontent.com/u/52385035?v=4")
   const [ scheduleItems, setScheduleItems ] = useState([{ week_day: 0, from: "", to: "" }])
   const [ classId, setClassId ] = useState("")
   const [ modify, setModify ] = useState(0)
+  const [ isError, setIsError ] = useState(false)
 
   const [ name, setName ] = useState("")
   const [ lastname, setLastname ] = useState("")
@@ -70,6 +69,10 @@ function Profile() {
     setEmail(String(defineStorageInfo("email")))
 
     loadClasses()
+
+    if(!indenfyLogged()) {
+      history.push("/")
+    }
   }, [])
 
   function addNewScheduleItem() {
@@ -89,7 +92,7 @@ function Profile() {
     setModify(modify + 1)
   }
 
-  function handleCreateClass(e: FormEvent) {
+  async function handleCreateClass(e: FormEvent) {
     e.preventDefault()
 
     const data = new FormData()
@@ -102,24 +105,33 @@ function Profile() {
     data.append("cost", cost)
     data.append("bio", bio)
     data.append("email", email)
-    data.append("name", name)
-    data.append("avatar", selectedFile)
 
-
-    api.post("classes", {
-      name,
-      whatsapp,
-      bio,
-      subject,
-      cost: Number(cost),
-      schedule: scheduleItems
-    }).then(response => {
-      alert("Cadastro realizado com sucesso")
-
-      history.goBack()
-    }).catch(() => {
-      alert("Erro no cadastro!")
+    scheduleItems.forEach(schedule => {
+      data.append("schedule", JSON.stringify(schedule))
     })
+
+    if (selectedFile) {
+      data.append("avatar", selectedFile)
+    }
+
+
+    const response = await api.put("classes", data)
+
+    if(response.status == 201) {
+      history.push("/finished-register-class")
+      setIsError(false)
+
+      if(userLocalStorage.getItem("avatar")) {
+        userLocalStorage.setItem("avatar", selectFileURL)
+        userLocalStorage.setItem("name", name)
+      } else {
+        userSessionStorage.setItem("avatar", selectFileURL)
+        userSessionStorage.setItem("name", name)
+      }
+      
+    } else {
+      setIsError(true)
+    }
   }
 
   function setScheduleItemValue(position: number, field: string, value: string) {
@@ -136,6 +148,7 @@ function Profile() {
 
   return (
     <div id="page-profile" className="container">
+      {isError && <BoxMessage text="Erro interno" seconds={2} />}
       <PageHeader>
         <div className="profile-header-content">
           <div className="profile-image-container">

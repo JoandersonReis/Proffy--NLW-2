@@ -1,4 +1,5 @@
 import React, { FormEvent, useState, useEffect } from "react"
+import { useHistory } from "react-router-dom"
 
 import PageHeader from "../../components/PageHeader"
 import TeacherItem from "../../components/TeacherItem"
@@ -11,13 +12,15 @@ import searchIcon from "../../assets/images/icons/search.png"
 import smileIcon from "../../assets/images/icons/smile.svg"
 
 import "./styles.css"
+import indenfyLogged from "../../utils/indenfyLogged"
 
 function TeacherList() {
+  const history = useHistory()
+
   const [ week_day, setWeek_day ] = useState("")
   const [ subject, setSubject ] = useState("")
   const [ time, setTime ] = useState("")
   const [ totalProffys, setTotalProffys ] = useState(0)
-  const [ reloadEffect, setReloadEffect ] = useState(0)
   const [ errorMessage, setErrorMessage ] = useState(false)
 
   const [ teachers, setTeachers ] = useState([])
@@ -56,7 +59,14 @@ function TeacherList() {
     })
   }
 
-  useEffect(loadingTeachers, [errorMessage])
+  useEffect(() => {
+    loadingTeachers()
+
+    
+    if(!indenfyLogged()) {
+      history.push("/")
+    }
+  }, [errorMessage])
 
   return (
     <div id="page-teacher-list" className="container">

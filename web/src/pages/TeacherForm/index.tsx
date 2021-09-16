@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react"
+import React, { FormEvent, useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
 import api from "../../services/api"
 
@@ -12,6 +12,7 @@ import warningIcon from "../../assets/images/icons/warning.svg"
 import rocketIcon from "../../assets/images/icons/rocket.svg"
 
 import "./styles.css"
+import indenfyLogged from "../../utils/indenfyLogged"
 
 function TeacherForm() {
   const history = useHistory()
@@ -45,6 +46,12 @@ function TeacherForm() {
       alert("Erro no cadastro!")
     })
   }
+
+  useEffect(() => {
+    if(!indenfyLogged() || defineStorageInfo("proffy")) {
+      history.push("/")
+    }
+  }, [])
 
   function setScheduleItemValue(position: number, field: string, value: string) {
     const updatedScheduleItems = scheduleItems.map((scheduleItem, index) => {
@@ -124,7 +131,8 @@ function TeacherForm() {
                   { value: "Física", label: "Física" },
                   { value: "Sociologia", label: "Sociologia" },
                   { value: "Filosofia", label: "Filosofia" },
-                  { value: "Biologia", label: "Biologia" }
+                  { value: "Biologia", label: "Biologia" },
+                  { value: "Matemática", label: "Matemática" }
                   
                 ]}
               />
