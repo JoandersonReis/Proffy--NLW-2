@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
   container: {
     height: "100%",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
 
   banner: {
@@ -60,5 +60,9 @@ export default StyleSheet.create({
 
   indicatorSelected: {
     color: "#8257E5"
+  },
+
+  nextButton: {
+    padding: 10,
   }
 })

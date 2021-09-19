@@ -52,7 +52,7 @@ function Wellcome() {
             . <Text style={[styles.stageIndicator, wellcomeStage == 1 && styles.indicatorSelected]}>.</Text>
           </Text>
 
-          <BorderlessButton onPress={handleChangeStage} style={{padding: 10}}>
+          <BorderlessButton onPress={handleChangeStage} style={styles.nextButton}>
             <Image source={arrowRightIcon} resizeMode="contain" />
           </BorderlessButton>
         </View>
