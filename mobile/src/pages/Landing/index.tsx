@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { View, Text, Image } from "react-native"
 import { BorderlessButton, RectButton, ScrollView } from "react-native-gesture-handler"
 import { useNavigation } from "@react-navigation/native"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 import styles from "./styles"
 import api from "../../services/api"
@@ -15,6 +16,13 @@ import powerIcon from "../../assets/images/icons/power.png"
 function Landing() {
   const [ totalConnections, setTotalConnections ] = useState()
   const navigation = useNavigation()
+
+
+  async function handleLogout() {
+    await AsyncStorage.removeItem("user")
+
+    navigation.navigate("Login")
+  }
 
   useEffect(() => {
     api.get("/connections").then(response => {
@@ -36,7 +44,7 @@ function Landing() {
             <Text style={styles.profileName}>Joanderson Reis</Text>
           </BorderlessButton>
 
-          <RectButton style={styles.logoutButton} onPress={() => navigation.navigate("Login")}>
+          <RectButton style={styles.logoutButton} onPress={handleLogout}>
             <Image source={powerIcon} resizeMode="contain" />
           </RectButton>
         </View>
