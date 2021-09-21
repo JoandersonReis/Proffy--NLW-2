@@ -1,7 +1,8 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Image, ImageBackground, Text, View } from "react-native"
 import { BorderlessButton } from "react-native-gesture-handler"
 import { useNavigation } from "@react-navigation/native"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 import backgroundImg from "../../assets/images/background-wellcome.png"
 import giveClassesIcon from "../../assets/images/icons/give-classes.png"
@@ -21,6 +22,20 @@ function Wellcome() {
       navigate("Login")
     }
   }
+
+  async function verifyFirstLogin() {
+    const storage = await AsyncStorage.getItem("cache")
+
+    if(!storage) {
+      await AsyncStorage.setItem("cache", "logged")
+    } else {
+      navigate("Login")
+    }
+  }
+
+  useEffect(() => {
+    verifyFirstLogin()
+  }, [])
 
   return (
     <View style={styles.container}>
