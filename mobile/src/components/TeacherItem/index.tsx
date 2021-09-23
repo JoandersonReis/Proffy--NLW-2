@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Image, Linking, StyleSheet, Text, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Image, ImageEditor, Linking, Text, View } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -12,6 +12,7 @@ import arrowRightIcon from "../../assets/images/icons/arrow-right.png"
 
 import { TeachersProps } from "../../pages/TeacherList"
 import api from "../../services/api";
+import convertNumberInWeekDay from "../../utils/convertNumberInWeekDay";
 
 
 interface TeacherProps {
@@ -19,14 +20,36 @@ interface TeacherProps {
   favorited: boolean
 }
 
+interface ScheduleProps {
+  week_day: number,
+  from: number,
+  to: number
+}
+
 const TeacherItem: React.FC<TeacherProps> = ({teacher, favorited}) => {
   const [ isFavorited, setIsFavorited ] = useState(favorited)
+
+  const [ schedule, setSchedule ] = useState([{week_day: 0, from: 220, to: 600}])
 
   function  handleSendWhatsapp() {
     api.post("connections", { user_id: teacher.id })
 
     Linking.openURL(`whatsapp://send?phone=55${teacher.whatsapp}`)
   }
+
+  async function loadSchedule() {
+    const response = await api.get("/schedules", {
+      params: {
+        class_id: teacher.id
+      }
+    })
+
+    setSchedule(response.data)
+  }
+
+  useEffect(() => {
+    loadSchedule()
+  }, [])
 
   async function handleToggleFavorite() {
     const favorites = await AsyncStorage.getItem("favorites")
@@ -74,42 +97,20 @@ const TeacherItem: React.FC<TeacherProps> = ({teacher, favorited}) => {
       <Text style={styles.bio}>{teacher.bio}</Text>
 
       <View style={styles.scheduleContainer}>
-        <View style={styles.schedule}>
-          <View style={styles.labelsContainer}>
-            <Text style={styles.label}>Dia</Text>
-            <Text style={styles.label}>Horário</Text>
-          </View>
+        {schedule.map((item: ScheduleProps) => (
+          <View style={styles.schedule} key={item.week_day}>
+            <View style={styles.labelsContainer}>
+              <Text style={styles.label}>Dia</Text>
+              <Text style={styles.label}>Horário</Text>
+            </View>
 
-          <View style={styles.dayTimeContainer}>
-            <Text style={styles.dayTime}>Segunda</Text>
-            <Image source={arrowRightIcon} />
-            <Text style={styles.dayTime}>8h - 18h</Text>
+            <View style={styles.dayTimeContainer}>
+              <Text style={styles.dayTime}>{convertNumberInWeekDay(item.week_day)}</Text>
+              <Image source={arrowRightIcon} />
+              <Text style={styles.dayTime}>{item.from / 60}h - {item.to / 60}h</Text>
+            </View>
           </View>
-        </View>
-        <View style={styles.schedule}>
-          <View style={styles.labelsContainer}>
-            <Text style={styles.label}>Dia</Text>
-            <Text style={styles.label}>Horário</Text>
-          </View>
-
-          <View style={styles.dayTimeContainer}>
-            <Text style={styles.dayTime}>Segunda</Text>
-            <Image source={arrowRightIcon} />
-            <Text style={styles.dayTime}>8h - 18h</Text>
-          </View>
-        </View>
-        <View style={styles.schedule}>
-          <View style={styles.labelsContainer}>
-            <Text style={styles.label}>Dia</Text>
-            <Text style={styles.label}>Horário</Text>
-          </View>
-
-          <View style={styles.dayTimeContainer}>
-            <Text style={styles.dayTime}>Segunda</Text>
-            <Image source={arrowRightIcon} />
-            <Text style={styles.dayTime}>8h - 18h</Text>
-          </View>
-        </View>
+        ))}
       </View>
 
       <View style={styles.footer}>

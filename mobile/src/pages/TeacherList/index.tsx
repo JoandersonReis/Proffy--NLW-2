@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { ScrollView, View, TextInput, Text, Image } from "react-native"
+import React, { useState, useEffect } from "react"
+import { ScrollView, View, Text, Image } from "react-native"
 import { RectButton } from "react-native-gesture-handler"
 import Icon from "react-native-vector-icons/Feather"
 import AsyncStorage from "@react-native-async-storage/async-storage"
@@ -12,7 +12,6 @@ import Picker from "../../components/Picker"
 import smileIcon from "../../assets/images/icons/smile.png"
 
 import styles from "./styles"
-import { Alert } from "react-native"
 
 export interface TeachersProps {
   id: number,
@@ -33,6 +32,7 @@ function TeacherList() {
   const [ subject, setSubject ] = useState<string|number|null>("")
   const [ weekDay, setWeekDay ] = useState<string|number|null>("")
   const [ time, setTime ] = useState<string|number|null>("")
+  const [ totalProffys, setTotalProffys ] = useState(0)
 
   function toggleSearchForm() {
     if(isFiltersVisible) {
@@ -58,7 +58,7 @@ function TeacherList() {
   async function searchTeachers() {
     loadFavorites()
 
-    const response = await api.get("/classes", {
+    const response = await api.get("/search", {
       params: {
         subject,
         week_day: Number(weekDay),
@@ -70,6 +70,19 @@ function TeacherList() {
     setTeachers(response.data)
   }
 
+  async function loadProffys() {
+    const response = await api.get("/classes")
+    const totalProffys = await api.get("/users")
+
+    setTeachers(response.data)
+    setTotalProffys(totalProffys.data.totalProffys)
+  }
+
+  useEffect(() => {
+    loadProffys()
+    loadFavorites()
+  }, [])
+
   return (
     <View style={styles.container}>
       <PageHeader 
@@ -77,7 +90,7 @@ function TeacherList() {
         headerRight={
           <View style={styles.totalProffys}>
             <Image source={smileIcon} resizeMode="contain" />
-            <Text style={styles.totalProffysText}>32 Proffys</Text>
+            <Text style={styles.totalProffysText}>{totalProffys} Proffys</Text>
           </View>
         }>
         <View style={styles.toggleButtonContainer}>

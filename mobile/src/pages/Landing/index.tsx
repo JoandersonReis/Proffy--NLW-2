@@ -12,9 +12,16 @@ import studyIcon from "../../assets/images/icons/study.png"
 import giveClassesIcon from "../../assets/images/icons/give-classes.png"
 import heartIcon from "../../assets/images/icons/heart.png"
 import powerIcon from "../../assets/images/icons/power.png"
+import { Alert } from "react-native"
+
+interface UserProps {
+  proffy: boolean
+}
 
 function Landing() {
   const [ totalConnections, setTotalConnections ] = useState()
+  const [ isProffy, setIsProffy ] = useState(false)
+
   const navigation = useNavigation()
 
 
@@ -24,10 +31,24 @@ function Landing() {
     navigation.navigate("Login")
   }
 
+  async function verifyIsProffy() {
+    const response = await AsyncStorage.getItem("user")
+
+    if(response) {
+      JSON.parse(String(response)).forEach((item: UserProps) => {
+        if(item.proffy) {
+          setIsProffy(true)
+        }
+      });
+    }
+  }
+
   useEffect(() => {
     api.get("/connections").then(response => {
       setTotalConnections(response.data.total)
     })
+
+    verifyIsProffy()
   }, [])
 
   return (
@@ -68,15 +89,17 @@ function Landing() {
 
             <Text style={styles.buttonText}>Estudar</Text>
           </RectButton>
+          
+          {!isProffy && 
+            <RectButton 
+              style={[styles.button, styles.buttonSecondary]}
+              onPress={() => navigation.navigate("GiveClasses")}
+            >
+              <Image source={giveClassesIcon} />
 
-          <RectButton 
-            style={[styles.button, styles.buttonSecondary]}
-            onPress={() => navigation.navigate("GiveClasses")}
-          >
-            <Image source={giveClassesIcon} />
-
-            <Text style={styles.buttonText}>Dar Aulas</Text>
-          </RectButton>
+              <Text style={styles.buttonText}>Dar Aulas</Text>
+            </RectButton>
+          }
         </View>
         <Text style={styles.totalConnections}>
           Total de {totalConnections} conexões já realizadas {" "}
