@@ -13,6 +13,7 @@ import styles from "./styles"
 
 function Favorites() {
   const [ favorites, setFavorites ] = useState([])
+  const [ totalFavorites, setTotalFavorites ] = useState(0)
 
   function loadFavorites() {
     AsyncStorage.getItem("favorites").then(response => {
@@ -20,8 +21,11 @@ function Favorites() {
         const favoritedTeachers = JSON.parse(response)
 
         setFavorites(favoritedTeachers)
+        setTotalFavorites(favoritedTeachers.length)
       }
     })
+
+    
   }
 
   useFocusEffect(() => {
@@ -35,7 +39,7 @@ function Favorites() {
         headerRight={
           <View style={styles.totalFavoritesProffys}>
             <Image source={emojiLoveIcon} resizeMode="contain" />
-            <Text style={styles.totalFavoritesProffysText}>32 Proffys</Text>
+            <Text style={styles.totalFavoritesProffysText}>{totalFavorites} Proffys</Text>
           </View>
         } 
       />
