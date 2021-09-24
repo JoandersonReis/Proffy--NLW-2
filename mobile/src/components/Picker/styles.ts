@@ -15,7 +15,6 @@ export default StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 16,
     marginVertical: 8,
-    
   },
 
   toggleButtonText: {

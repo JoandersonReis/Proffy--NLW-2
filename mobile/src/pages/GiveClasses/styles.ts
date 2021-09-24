@@ -87,7 +87,7 @@ export default StyleSheet.create({
   },
 
   bio: {
-    padding: 0
+    padding: 10
   },
 
   titleTimeContainer: {

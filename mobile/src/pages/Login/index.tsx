@@ -90,6 +90,7 @@ function Login() {
           placeholder="Senha" 
           secureTextEntry={showPassword? false:true}
           value={password}
+          autoCapitalize="none"
           onChangeText={text => {
             setPassword(text)
             filterUserInfo()

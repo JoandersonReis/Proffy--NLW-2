@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useNavigation } from "@react-navigation/native"
 import { Image, Text, TextInput, View } from "react-native"
 import { BorderlessButton, RectButton, ScrollView } from "react-native-gesture-handler"
@@ -7,7 +7,11 @@ import Icon from "react-native-vector-icons/Feather"
 import PageHeader from "../../components/PageHeader"
 import Picker from "../../components/Picker"
 
+import returnUserInfo from "../../utils/returnUserInfo"
+import api from "../../services/api"
+
 import styles from "./styles"
+import { Alert } from "react-native"
 
 interface ScheduleItemProps {
   weekDay: string,
@@ -19,11 +23,24 @@ function GiveClasses() {
   const [ scheduleItems, setScheduleItems ] = useState<ScheduleItemProps[]>([{weekDay: "", from: "", to: ""}])
   const navigation = useNavigation()
 
+  const [ name, setName ] = useState("")
+  const [ avatar, setAvatar ] = useState()
+  const [ whatsapp, setWhatsapp] = useState("")
+  const [ bio, setBio ] = useState("")
+  const [ subject, setSubject ] = useState<string|null|number>("")
+  const [ cost, setCost ] = useState("0")
+
+
+  async function loadUserInfo() {
+    setName(`${await returnUserInfo("name")} ${await returnUserInfo("lastname")}`)
+    setAvatar(await returnUserInfo("avatar"))
+  }
+
   function handleAddScheduleItem() {
     setScheduleItems([...scheduleItems, {weekDay: "", from: "", to: ""}])
   }
 
-  function handleEditScheduleItem(position: number, field: string, value: string) {
+  function handleEditScheduleItem(position: number, field: string, value: string|number) {
     const updatedScheduleItems = scheduleItems.map((scheduleItem, index) => {
       if(index === position) {
         return { ...scheduleItem, [field]: value }
@@ -34,6 +51,32 @@ function GiveClasses() {
 
     setScheduleItems(updatedScheduleItems)
   }
+
+  async function handleCreateClass() {
+    const response = await api.post("/classes", {
+      user_id: await Number(returnUserInfo("id")),
+      subject,
+      bio,
+      whatsapp: String(whatsapp),
+      cost: Number(cost),
+      schedule: scheduleItems
+    })
+
+    if(response.status == 201) {
+      navigation.navigate("Finished", {
+        title: "Cadastro Salvo",
+        description: "Tudo certo, seu cadastro está na nossa lista de professores. Agora é só ficar de olho no seu WhatsApp.",
+        buttonText: "Inicio",
+        screenPath: "Landing"
+      })
+    } else {
+      console.log(response.data)
+    }
+  } 
+
+  useEffect(() => {
+    loadUserInfo()
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -50,18 +93,22 @@ function GiveClasses() {
           <View style={styles.profileContainer}>
             <Image 
               style={styles.profileImage} 
-              source={{uri: "https://avatars.githubusercontent.com/u/52385035?v=4"}} 
+              source={{uri: avatar}} 
             />
 
             <View style={styles.profileInfo}>
-              <Text style={styles.profileName}>Joanderson Reis</Text>
-              <Text style={styles.subject}>Matemática</Text>
+              <Text style={styles.profileName}>{name}</Text>
             </View>
           </View>
 
           <View>
             <Text style={styles.label}>Whatsapp</Text>
-            <TextInput style={styles.input} />
+            <TextInput 
+              style={styles.input}
+              value={whatsapp}
+              onChangeText={setWhatsapp}
+              keyboardType="phone-pad"
+            />
           </View>
 
           <View>
@@ -70,6 +117,9 @@ function GiveClasses() {
               style={[styles.input, styles.bio]}
               multiline={true}
               numberOfLines={15}
+              value={bio}
+              textAlignVertical="top"
+              onChangeText={setBio} 
             />
           </View>
 
@@ -79,12 +129,34 @@ function GiveClasses() {
 
           <View>
             <Text style={styles.label}>Matéria</Text>
-            <TextInput style={styles.input} />
+            <Picker
+              onChangeValue={setSubject}
+              defaultValue={subject}
+              items={[
+                { label: "Matemática", value: "Matemática" },
+                { label: "Português", value: "Português" },
+                { label: "Ciências", value: "Ciências" },
+                { label: "História", value: "História" },
+                { label: "Geografia", value: "Geografia" },
+                { label: "Física", value: "Física" },
+                { label: "Química", value: "Química" },
+                { label: "Biologia", value: "Biologia" },
+                { label: "Sociologia", value: "Sociologia" },
+                { label: "Filosofia", value: "Filosofia" },
+                { label: "Ed. Física", value: "Ed. Física" },
+                { label: "Inglês", value: "Inglês" },
+              ]}
+            />    
           </View>
 
           <View>
             <Text style={styles.label}>Custo da sua hora por aula</Text>
-            <TextInput style={styles.input} />
+            <TextInput
+              style={styles.input}
+              value={cost}
+              keyboardType="numeric"
+              onChangeText={setCost} 
+            />
           </View>
 
           <View style={styles.titleTimeContainer}>
@@ -98,7 +170,7 @@ function GiveClasses() {
             <View key={index} style={index > 0? styles.scheduleBlock:null}>
               <Text style={styles.label}>Dia da Semana</Text>
               <Picker
-                onChangeValue={(text) => handleEditScheduleItem(index, "weekDay", String(text))}
+                onChangeValue={(text) => handleEditScheduleItem(index, "weekDay", Number(text))}
                 defaultValue={item.weekDay}
                 style={{
                   toggleButton: {
@@ -108,32 +180,79 @@ function GiveClasses() {
                   }
                 }}
                 items={[
-                  { label: "Domingo", value: "Domingo" },
-                  { label: "Segunda-Feira", value: "Segunda" },
-                  { label: "Terça-Feira", value: "Terça" },
-                  { label: "Quarta-Feira", value: "Quarta" },
-                  { label: "Quinta-Feira", value: "Quinta" },
-                  { label: "Sexta-Feira", value: "Sexta" },
-                  { label: "Sábado", value: "Sábado" },
+                  { label: "Domingo", value: 0 },
+                  { label: "Segunda-Feira", value: 1 },
+                  { label: "Terça-Feira", value: 2 },
+                  { label: "Quarta-Feira", value: 3 },
+                  { label: "Quinta-Feira", value: 4 },
+                  { label: "Sexta-Feira", value: 5 },
+                  { label: "Sábado", value: 6 },
                 ]} 
               />
 
               <View style={styles.timeContainer}>
-                <View style={styles.inputTimeBlock}>
+                {/* <View style={styles.inputTimeBlock}>
                   <Text style={styles.label}>Das</Text>
                   <TextInput 
                     style={styles.input}
                     value={item.from}
                     onChangeText={(text) => handleEditScheduleItem(index, "from", text)} 
                   />
+                </View> */}
+
+                <View style={styles.inputTimeBlock}>
+                  <Text style={styles.label}>Dás</Text>
+                  <Picker
+                    onChangeValue={(text) => handleEditScheduleItem(index, "from", String(text))}
+                    defaultValue={item.from}
+                    items={[
+                      { label: "06:00", value: "6:00" },
+                      { label: "07:00", value: "7:00" },
+                      { label: "08:00", value: "8:00" },
+                      { label: "09:00", value: "9:00" },
+                      { label: "10:00", value: "10:00" },
+                      { label: "11:00", value: "11:00" },
+                      { label: "12:00", value: "12:00" },
+                      { label: "13:00", value: "13:00" },
+                      { label: "14:00", value: "14:00" },
+                      { label: "15:00", value: "15:00" },
+                      { label: "16:00", value: "16:00" },
+                      { label: "17:00", value: "17:00" },
+                      { label: "18:00", value: "18:00" },
+                      { label: "19:00", value: "19:00" },
+                      { label: "20:00", value: "20:00" },
+                      { label: "21:00", value: "21:00" },
+                      { label: "22:00", value: "22:00" },
+                      { label: "23:00", value: "23:00" },
+                    ]}
+                  />
                 </View>
 
                 <View style={styles.inputTimeBlock}>
                   <Text style={styles.label}>Até</Text>
-                  <TextInput 
-                    style={styles.input}
-                    value={item.to}
-                    onChangeText={(text) => handleEditScheduleItem(index, "to", text)}
+                  <Picker
+                    onChangeValue={(text) => handleEditScheduleItem(index, "to", String(text))}
+                    defaultValue={item.to}
+                    items={[
+                      { label: "06:00", value: "6:00" },
+                      { label: "07:00", value: "7:00" },
+                      { label: "08:00", value: "8:00" },
+                      { label: "09:00", value: "9:00" },
+                      { label: "10:00", value: "10:00" },
+                      { label: "11:00", value: "11:00" },
+                      { label: "12:00", value: "12:00" },
+                      { label: "13:00", value: "13:00" },
+                      { label: "14:00", value: "14:00" },
+                      { label: "15:00", value: "15:00" },
+                      { label: "16:00", value: "16:00" },
+                      { label: "17:00", value: "17:00" },
+                      { label: "18:00", value: "18:00" },
+                      { label: "19:00", value: "19:00" },
+                      { label: "20:00", value: "20:00" },
+                      { label: "21:00", value: "21:00" },
+                      { label: "22:00", value: "22:00" },
+                      { label: "23:00", value: "23:00" },
+                    ]}
                   />
                 </View>
               </View>
@@ -144,14 +263,8 @@ function GiveClasses() {
         <View style={styles.footer}>
           <RectButton 
             style={styles.registerButton} 
-            onPress={() => {
-              navigation.navigate("Finished", {
-                title: "Cadastro Salvo",
-                description: "Tudo certo, seu cadastro está na nossa lista de professores. Agora é só ficar de olho no seu WhatsApp.",
-                buttonText: "Fazer Login",
-                screenPath: "Login"
-              })
-            }}>
+            onPress={handleCreateClass}
+          >
             <Text style={styles.registerButtonText}>Salvar Cadastro</Text>
           </RectButton>
 

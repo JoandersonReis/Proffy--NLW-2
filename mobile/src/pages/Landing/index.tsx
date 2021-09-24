@@ -13,14 +13,14 @@ import giveClassesIcon from "../../assets/images/icons/give-classes.png"
 import heartIcon from "../../assets/images/icons/heart.png"
 import powerIcon from "../../assets/images/icons/power.png"
 import { Alert } from "react-native"
-
-interface UserProps {
-  proffy: boolean
-}
+import returnUserInfo from "../../utils/returnUserInfo"
 
 function Landing() {
   const [ totalConnections, setTotalConnections ] = useState()
   const [ isProffy, setIsProffy ] = useState(false)
+
+  const [ name, setName ] = useState("")
+  const [ avatar, setAvatar ] = useState()
 
   const navigation = useNavigation()
 
@@ -31,15 +31,14 @@ function Landing() {
     navigation.navigate("Login")
   }
 
-  async function verifyIsProffy() {
-    const response = await AsyncStorage.getItem("user")
+  async function loadUserInfo() {  
+    setName(`${await returnUserInfo("name")} ${await returnUserInfo("lastname")}`)
+    setAvatar(await returnUserInfo("avatar"))
+  }
 
-    if(response) {
-      JSON.parse(String(response)).forEach((item: UserProps) => {
-        if(item.proffy) {
-          setIsProffy(true)
-        }
-      });
+  async function verifyIsProffy() {
+    if(await returnUserInfo("proffy") == 1) {
+      setIsProffy(true)
     }
   }
 
@@ -49,6 +48,7 @@ function Landing() {
     })
 
     verifyIsProffy()
+    loadUserInfo()
   }, [])
 
   return (
@@ -59,10 +59,10 @@ function Landing() {
             <Image
               style={styles.profileImage}
               source={{
-                uri: "https://avatars.githubusercontent.com/u/52385035?v=4"
+                uri: avatar
               }}
             />
-            <Text style={styles.profileName}>Joanderson Reis</Text>
+            <Text style={styles.profileName}>{name}</Text>
           </BorderlessButton>
 
           <RectButton style={styles.logoutButton} onPress={handleLogout}>
