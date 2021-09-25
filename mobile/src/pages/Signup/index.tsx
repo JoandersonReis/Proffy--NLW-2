@@ -58,10 +58,9 @@ function Signup() {
       } else if(response.status == 202) {
         Alert.alert(response.data.message)
       } 
+    } else {
+      Alert.alert("Email inválido ou senha menor que 6 caracteres!")
     }
-
-
-    Alert.alert("Email inválido ou senha menor que 6 caracteres!")
   }
 
   return (
@@ -114,6 +113,7 @@ function Signup() {
             <Input 
               placeholder="Senha" 
               secureTextEntry={showPassword? false:true}
+              autoCapitalize="none"
               value={password}
               onChangeText={text => setPassword(text)}
             >

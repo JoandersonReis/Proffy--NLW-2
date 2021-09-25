@@ -12,15 +12,16 @@ import api from "../../services/api"
 
 import styles from "./styles"
 import { Alert } from "react-native"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 interface ScheduleItemProps {
-  weekDay: string,
+  week_day: string,
   from: string,
   to: string
 }
 
 function GiveClasses() {
-  const [ scheduleItems, setScheduleItems ] = useState<ScheduleItemProps[]>([{weekDay: "", from: "", to: ""}])
+  const [ scheduleItems, setScheduleItems ] = useState<ScheduleItemProps[]>([{week_day: "", from: "", to: ""}])
   const navigation = useNavigation()
 
   const [ name, setName ] = useState("")
@@ -29,15 +30,17 @@ function GiveClasses() {
   const [ bio, setBio ] = useState("")
   const [ subject, setSubject ] = useState<string|null|number>("")
   const [ cost, setCost ] = useState("0")
+  const [ user_id, setUserId ] = useState("")
 
 
   async function loadUserInfo() {
     setName(`${await returnUserInfo("name")} ${await returnUserInfo("lastname")}`)
     setAvatar(await returnUserInfo("avatar"))
+    setUserId(await returnUserInfo("id"))
   }
 
   function handleAddScheduleItem() {
-    setScheduleItems([...scheduleItems, {weekDay: "", from: "", to: ""}])
+    setScheduleItems([...scheduleItems, {week_day: "", from: "", to: ""}])
   }
 
   function handleEditScheduleItem(position: number, field: string, value: string|number) {
@@ -53,29 +56,46 @@ function GiveClasses() {
   }
 
   async function handleCreateClass() {
-    const response = await api.post("/classes", {
-      user_id: await Number(returnUserInfo("id")),
-      subject,
-      bio,
-      whatsapp: String(whatsapp),
-      cost: Number(cost),
-      schedule: scheduleItems
-    })
-
-    if(response.status == 201) {
-      navigation.navigate("Finished", {
-        title: "Cadastro Salvo",
-        description: "Tudo certo, seu cadastro está na nossa lista de professores. Agora é só ficar de olho no seu WhatsApp.",
-        buttonText: "Inicio",
-        screenPath: "Landing"
+    try {
+      const response = await api.post("/classes", {
+        user_id,
+        subject,
+        bio,
+        whatsapp: String(whatsapp),
+        cost: Number(cost),
+        schedule: scheduleItems
       })
-    } else {
-      console.log(response.data)
+  
+      if(response.status == 201) {
+        const user = await AsyncStorage.getItem("user")
+        let userArray = JSON.parse(String(user))
+    
+        userArray[0].proffy = 1
+        await AsyncStorage.setItem("user", JSON.stringify(userArray))
+  
+        navigation.navigate("Finished", {
+          title: "Cadastro Salvo",
+          description: "Tudo certo, seu cadastro está na nossa lista de professores. Agora é só ficar de olho no seu WhatsApp.",
+          buttonText: "Inicio",
+          screenPath: "Landing"
+        })
+      } else {
+        Alert.alert("Erro Inesperado")
+      }
+    } catch(err) {
+      Alert.alert("Preencha Todos os campos")
     }
   } 
 
   useEffect(() => {
     loadUserInfo()
+
+    returnUserInfo("proffy").then(response => {
+      if(response == 1) {
+        Alert.alert("Você ja tem uma aula cadastrada!")
+        navigation.goBack()
+      }
+    })
   }, [])
 
   return (
@@ -170,8 +190,8 @@ function GiveClasses() {
             <View key={index} style={index > 0? styles.scheduleBlock:null}>
               <Text style={styles.label}>Dia da Semana</Text>
               <Picker
-                onChangeValue={(text) => handleEditScheduleItem(index, "weekDay", Number(text))}
-                defaultValue={item.weekDay}
+                onChangeValue={(text) => handleEditScheduleItem(index, "week_day", Number(text))}
+                defaultValue={item.week_day}
                 style={{
                   toggleButton: {
                     borderWidth: 1,
@@ -180,26 +200,17 @@ function GiveClasses() {
                   }
                 }}
                 items={[
-                  { label: "Domingo", value: 0 },
-                  { label: "Segunda-Feira", value: 1 },
-                  { label: "Terça-Feira", value: 2 },
-                  { label: "Quarta-Feira", value: 3 },
-                  { label: "Quinta-Feira", value: 4 },
-                  { label: "Sexta-Feira", value: 5 },
-                  { label: "Sábado", value: 6 },
+                  { label: "Domingo", value: "0" },
+                  { label: "Segunda-Feira", value: "1" },
+                  { label: "Terça-Feira", value: "2" },
+                  { label: "Quarta-Feira", value: "3" },
+                  { label: "Quinta-Feira", value: "4" },
+                  { label: "Sexta-Feira", value: "5" },
+                  { label: "Sábado", value: "6" },
                 ]} 
               />
 
               <View style={styles.timeContainer}>
-                {/* <View style={styles.inputTimeBlock}>
-                  <Text style={styles.label}>Das</Text>
-                  <TextInput 
-                    style={styles.input}
-                    value={item.from}
-                    onChangeText={(text) => handleEditScheduleItem(index, "from", text)} 
-                  />
-                </View> */}
-
                 <View style={styles.inputTimeBlock}>
                   <Text style={styles.label}>Dás</Text>
                   <Picker

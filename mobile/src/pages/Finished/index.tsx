@@ -28,7 +28,7 @@ function Finished() {
         <Text style={styles.title}>{params.title}</Text>
         <Text style={styles.description}>{params.description}</Text>
         
-        <Button buttonBackgroundColor="#04D361" buttonText="Fazer Login" colorButtonText="#fff" onPress={() => navigate(params.screenPath)} />
+        <Button buttonBackgroundColor="#04D361" buttonText={params.buttonText} colorButtonText="#fff" onPress={() => navigate(params.screenPath)} />
       </ImageBackground>
     </View>
   )
