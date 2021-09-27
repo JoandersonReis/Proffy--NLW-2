@@ -14,6 +14,31 @@ export default StyleSheet.create({
     backgroundColor: "#fff",
     alignSelf: "center"
   },
+
+  camera: {
+    height: "100%",
+    width: "100%",
+    position: "absolute",
+    zIndex: 99,
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
+
+  cameraButtons: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 40,
+    width: "100%"
+  },
+
+  capturePhotoButton: {
+    width: 60,
+    height: 60,
+    borderRadius: 50,
+    backgroundColor: "#fff",
+    marginBottom: 20
+  },
   
   form: {
     padding: 26,

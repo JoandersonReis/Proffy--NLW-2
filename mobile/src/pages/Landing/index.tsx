@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { View, Text, Image } from "react-native"
 import { BorderlessButton, RectButton, ScrollView } from "react-native-gesture-handler"
-import { useNavigation } from "@react-navigation/native"
+import { useNavigation, useFocusEffect } from "@react-navigation/native"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 import styles from "./styles"
@@ -47,9 +47,12 @@ function Landing() {
       setTotalConnections(response.data.total)
     })
 
-    verifyIsProffy()
     loadUserInfo()
   }, [])
+
+  useFocusEffect(() => {
+    verifyIsProffy()
+  })
 
   return (
     <ScrollView>

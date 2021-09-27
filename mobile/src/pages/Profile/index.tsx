@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { useNavigation } from "@react-navigation/native"
 import { Image, ImageBackground, Text, TextInput, View } from "react-native"
 import { BorderlessButton, RectButton, ScrollView } from "react-native-gesture-handler"
+import { RNCamera, TakePictureOptions } from "react-native-camera"
 import Icon from "react-native-vector-icons/Feather"
 
 import Picker from "../../components/Picker"
@@ -20,7 +21,28 @@ interface ScheduleItemProps {
 function Profile() {
   const [ scheduleItems, setScheduleItems ] = useState<ScheduleItemProps[]>([{weekDay: "", from: "", to: ""}])
   const [ countDelete, setCountDelete ] = useState(0)
+  const [ isCameraOn, setIsCameraOn ] = useState(false)
+
+  const [ imageUri, setImageUri ] = useState()
+
   const navigation = useNavigation()
+
+  async function takePicture(camera: any) {
+    if(camera) {
+      const options: TakePictureOptions = { 
+        quality: 0.5, 
+        base64: true, 
+        imageType: "png", 
+        mirrorImage: true, 
+        fixOrientation: true
+      }
+      const data = await camera.takePictureAsync(options)
+      
+      setImageUri(data.uri)
+      console.log(data.uri)
+      setIsCameraOn(false)
+    }
+  }
 
   function handleAddScheduleItem() {
     setScheduleItems([...scheduleItems, {weekDay: "", from: "", to: ""}])
@@ -49,12 +71,44 @@ function Profile() {
 
   return (
     <View style={styles.container}>
+      {isCameraOn && 
+        <RNCamera
+          captureAudio={false}
+          style={styles.camera} 
+          androidCameraPermissionOptions={{
+            title: "Permissão para usar a câmera",
+            message: "Nós precisamos de sua autorização para usar a câmera",
+            buttonPositive: "Certo",
+            buttonNegative: "Cancelar"
+          }}
+          type={RNCamera.Constants.Type.front}
+          notAuthorizedView={<Text>Não autorizado</Text>}
+          useNativeZoom
+        >
+          {({camera, status, recordAudioPermissionStatus}) => {
+            if(status !== "READY") return <Text>Não autorizado</Text>
+            return (
+              <View style={styles.cameraButtons}>
+                <RectButton style={styles.capturePhotoButton} onPress={() => takePicture(camera)}></RectButton>
+
+                <BorderlessButton onPress={() => setIsCameraOn(false)}>
+                  <Icon name="corner-down-left" color="#fff" size={30} />
+                </BorderlessButton>
+            </View>
+            )
+          }}
+        
+        </RNCamera>
+      }
       
       <View style={styles.header}>
         <ImageBackground style={styles.profileContainer} source={backgroundProfileImage} resizeMode="contain">
           <View style={styles.profileImageContainer}>
-            <Image style={styles.profileImage} source={{uri: "https://avatars.githubusercontent.com/u/52385035?v=4"}} />
-            <RectButton style={styles.changeProfileImageButton}>
+            <Image style={styles.profileImage} source={{uri: imageUri? imageUri:"https://avatars.githubusercontent.com/u/52385035?v=4"}} />
+            <RectButton 
+              style={styles.changeProfileImageButton}
+              onPress={() => setIsCameraOn(true)}
+            >
               <Icon name="camera" color="#fff" size={20} />
             </RectButton>
           </View>
