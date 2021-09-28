@@ -94,6 +94,14 @@ export default StyleSheet.create({
     bottom: 0,
     right: 12
   },
+
+  takePictureProfile: {
+    bottom: 30,
+    right: -12,
+    height: 30,
+    width: 30,
+    backgroundColor: "#D4C2FF"
+  },
   
   profileName: {
     fontFamily: "Archivo Bold",

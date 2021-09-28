@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { useNavigation } from "@react-navigation/native"
 import { Image, ImageBackground, Text, TextInput, View } from "react-native"
 import { BorderlessButton, RectButton, ScrollView } from "react-native-gesture-handler"
-import { RNCamera, TakePictureOptions } from "react-native-camera"
+import { launchImageLibrary, ImageLibraryOptions, launchCamera, CameraOptions } from "react-native-image-picker"
 import Icon from "react-native-vector-icons/Feather"
 
 import Picker from "../../components/Picker"
@@ -10,7 +10,6 @@ import Picker from "../../components/Picker"
 import backgroundProfileImage from "../../assets/images/background-profile.png"
 
 import styles from "./styles"
-import { Alert } from "react-native"
 
 interface ScheduleItemProps {
   weekDay: string,
@@ -21,27 +20,47 @@ interface ScheduleItemProps {
 function Profile() {
   const [ scheduleItems, setScheduleItems ] = useState<ScheduleItemProps[]>([{weekDay: "", from: "", to: ""}])
   const [ countDelete, setCountDelete ] = useState(0)
-  const [ isCameraOn, setIsCameraOn ] = useState(false)
+  
+  const [ avatarImg, setAvatarImg ] = useState("")
+  const [ name, setName ] = useState("")
+  const [ whatsapp, setWhatsapp] = useState("")
+  const [ bio, setBio ] = useState("")
+  const [ subject, setSubject ] = useState<string|null|number>("")
+  const [ cost, setCost ] = useState("0")
+  const [ user_id, setUserId ] = useState("")
 
-  const [ imageUri, setImageUri ] = useState()
+  const [ imageUri, setImageUri ] = useState("")
 
   const navigation = useNavigation()
 
-  async function takePicture(camera: any) {
-    if(camera) {
-      const options: TakePictureOptions = { 
-        quality: 0.5, 
-        base64: true, 
-        imageType: "png", 
-        mirrorImage: true, 
-        fixOrientation: true
-      }
-      const data = await camera.takePictureAsync(options)
-      
-      setImageUri(data.uri)
-      console.log(data.uri)
-      setIsCameraOn(false)
+  function getImageProfile() {
+    const options: ImageLibraryOptions = {
+      mediaType: "photo",
+      quality: 1,
+      includeBase64: true
     }
+
+    launchImageLibrary(options, ({ assets }) => {
+      if(assets) {
+        setImageUri(String(assets[0].uri))
+      }
+    })
+  }
+
+  function takePicture() {
+     const options: CameraOptions = {
+      mediaType: "photo",
+      quality: 1,
+      cameraType: "front",
+      includeBase64: true
+     }
+
+    launchCamera(options, ({assets}) => {
+      if(assets) {
+        setImageUri(String(assets[0].uri))
+        console.log(assets[0].base64)
+      }
+    })
   }
 
   function handleAddScheduleItem() {
@@ -71,45 +90,19 @@ function Profile() {
 
   return (
     <View style={styles.container}>
-      {isCameraOn && 
-        <RNCamera
-          captureAudio={false}
-          style={styles.camera} 
-          androidCameraPermissionOptions={{
-            title: "Permissão para usar a câmera",
-            message: "Nós precisamos de sua autorização para usar a câmera",
-            buttonPositive: "Certo",
-            buttonNegative: "Cancelar"
-          }}
-          type={RNCamera.Constants.Type.front}
-          notAuthorizedView={<Text>Não autorizado</Text>}
-          useNativeZoom
-        >
-          {({camera, status, recordAudioPermissionStatus}) => {
-            if(status !== "READY") return <Text>Não autorizado</Text>
-            return (
-              <View style={styles.cameraButtons}>
-                <RectButton style={styles.capturePhotoButton} onPress={() => takePicture(camera)}></RectButton>
-
-                <BorderlessButton onPress={() => setIsCameraOn(false)}>
-                  <Icon name="corner-down-left" color="#fff" size={30} />
-                </BorderlessButton>
-            </View>
-            )
-          }}
-        
-        </RNCamera>
-      }
-      
       <View style={styles.header}>
         <ImageBackground style={styles.profileContainer} source={backgroundProfileImage} resizeMode="contain">
           <View style={styles.profileImageContainer}>
             <Image style={styles.profileImage} source={{uri: imageUri? imageUri:"https://avatars.githubusercontent.com/u/52385035?v=4"}} />
+            <RectButton onPress={takePicture} style={[styles.changeProfileImageButton, styles.takePictureProfile]}>
+              <Icon name="camera" color="#fff" size={15} />
+            </RectButton>
+
             <RectButton 
               style={styles.changeProfileImageButton}
-              onPress={() => setIsCameraOn(true)}
+              onPress={getImageProfile}
             >
-              <Icon name="camera" color="#fff" size={20} />
+              <Icon name="edit-2" color="#fff" size={20} />
             </RectButton>
           </View>
           <Text style={styles.profileName}>Joanderson Reis</Text>
