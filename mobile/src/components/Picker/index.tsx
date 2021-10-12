@@ -1,6 +1,6 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Text, View, StyleProp, ViewStyle, TextStyle } from "react-native"
-import { FlatList, RectButton, ScrollView } from "react-native-gesture-handler"
+import { RectButton, ScrollView } from "react-native-gesture-handler"
 import Icon from "react-native-vector-icons/Feather"
 
 import styles from "./styles"
@@ -25,14 +25,14 @@ interface PickerProps {
   onChangeValue?: (item: string|number|null) => void,
   placeholder?: string,
   placeholderColor?: string,
-  defaultValue: string|number|null,
+  defaultValue: ItemProps,
   iconColor?: string,
   style?: StylesProps
 }
 
 const Picker: React.FC<PickerProps> = ({ items, onChangeValue, defaultValue, placeholderColor, placeholder, iconColor, style }) => {
   const [ isActiveMenu, setIsActiveMenu ] = useState(false)
-  const [ itemSelected, setItemSelected ] = useState<ItemProps>({label: placeholder? placeholder:"Selecione", value: null})
+  const [ itemSelected, setItemSelected ] = useState<ItemProps>(defaultValue.label? defaultValue:{label: placeholder? placeholder:"Selecione", value: null})
 
 
   function handleActiveToggleMenu() {
@@ -60,36 +60,20 @@ const Picker: React.FC<PickerProps> = ({ items, onChangeValue, defaultValue, pla
       </RectButton>
 
       <ScrollView style={[styles.menu, style?.menu]}>
-      {isActiveMenu &&
-        items.map((item) => (
-          <RectButton
-            key={item.value}
-            onPress={() => handleChangeItemSelected(item)}
-            style={[styles.menuItem, style?.itemSelected, item.value == defaultValue? styles.itemSelected:null]} 
-          >
-            <Text style={[styles.menuItemText, style?.itemSelectedText, item.value == defaultValue? styles.itemSelectedText:null]}>
-              {item.label}
-            </Text>
-          </RectButton>
-        ))
-        // <FlatList
-        //   style={[styles.menu, style?.menu]}
-        //   showsVerticalScrollIndicator
-        //   data={items}
-        //   keyExtractor={item => item.value}
-        //   renderItem={({item}) => (
-          //     <RectButton 
-          //       onPress={() => handleChangeItemSelected(item)}
-          //       style={[styles.menuItem, style?.itemSelected, item.value == defaultValue? styles.itemSelected:null]} 
-          //     >
-          //       <Text style={[styles.menuItemText, style?.itemSelectedText, item.value == defaultValue? styles.itemSelectedText:null]}>
-          //         {item.label}
-          //       </Text>
-          //     </RectButton>
-          //   )}
-          // />
+        {isActiveMenu &&
+          items.map((item) => (
+            <RectButton
+              key={item.value}
+              onPress={() => handleChangeItemSelected(item)}
+              style={[styles.menuItem, style?.itemSelected, item.value == defaultValue.value? styles.itemSelected:null]} 
+            >
+              <Text style={[styles.menuItemText, style?.itemSelectedText, item.value == defaultValue.value? styles.itemSelectedText:null]}>
+                {item.label}
+              </Text>
+            </RectButton>
+          ))
         }
-        </ScrollView>
+      </ScrollView>
     </View>
   )
 }

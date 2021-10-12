@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react"
-import { useNavigation } from "@react-navigation/native"
+import { useNavigation, useFocusEffect } from "@react-navigation/native"
 import { Image, ImageBackground, Text, TextInput, View } from "react-native"
 import { BorderlessButton, RectButton, ScrollView } from "react-native-gesture-handler"
 import { launchImageLibrary, ImageLibraryOptions, launchCamera, CameraOptions } from "react-native-image-picker"
 import Icon from "react-native-vector-icons/Feather"
-import RNFetchBlob from "react-native-fetch-blob"
 
 import Picker from "../../components/Picker"
 
@@ -15,9 +14,10 @@ import { Alert } from "react-native"
 import api from "../../services/api"
 import convertMinutesInHours from "../../utils/convertMinutesInHours"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import convertNumberDay from "../../utils/convertNumberInWeekDay"
 
 interface ScheduleItemProps {
-  weekDay: string,
+  week_day: string,
   from: string,
   to: string
 }
@@ -28,11 +28,20 @@ interface ScheduleProps {
   from: number
 }
 
+interface ClassesProps {
+  id: number,
+  user_id: number,
+  bio: string,
+  subject: string,
+  schedules: Array<ScheduleProps>,
+  cost: number,
+  whatsapp: string
+}
+
 function Profile() {
-  const [ scheduleItems, setScheduleItems ] = useState<ScheduleItemProps[]>([{weekDay: "", from: "", to: ""}])
+  const [ scheduleItems, setScheduleItems ] = useState<ScheduleItemProps[]>([{week_day: "", from: "", to: ""}])
   const [ countDelete, setCountDelete ] = useState(0)
   
-  const [ avatarImg, setAvatarImg ] = useState()
   const [ name, setName ] = useState("")
   const [ lastname, setLastname ] = useState("")
   const [ email, setEmail ] = useState("")
@@ -52,18 +61,21 @@ function Profile() {
   async function loadClasses() {
     const response = await api.get(`/classes/${user_id}`)
 
-    setWhatsapp(response.data.whatsapp)
-    setBio(response.data.bio)
-    setCost(response.data.cost)
-    setClassId(String(response.data.id))
+    const data = response.data as ClassesProps
+    
+    setWhatsapp(data.whatsapp)
+    setBio(data.bio)
+    setCost(String(data.cost))
+    setClassId(String(data.id))
+    setSubject(data.subject)
     
     if(isProffy) {
       setSubject(String(response.data.subject))
       const schedulesData = response.data.schedules.map((schedule: ScheduleProps) => {
         return {
-          week_day: schedule.week_day,
-          to: convertMinutesInHours(schedule.to),
-          from: convertMinutesInHours(schedule.from)
+          week_day: String(schedule.week_day),
+          to: String(convertMinutesInHours(schedule.to)),
+          from: String(convertMinutesInHours(schedule.from))
         }
       })
       setScheduleItems(schedulesData)
@@ -126,12 +138,16 @@ function Profile() {
   }
 
   useEffect(() => {
+    let isMounted = true
+
     loadStorage()
     loadClasses()
+
+    return () => { isMounted = false }
   }, [])
 
   function handleAddScheduleItem() {
-    setScheduleItems([...scheduleItems, {weekDay: "", from: "", to: ""}])
+    setScheduleItems([...scheduleItems, {week_day: "", from: "", to: ""}])
   }
 
   function handleEditScheduleItem(position: number, field: string, value: string) {
@@ -165,17 +181,19 @@ function Profile() {
     data.append("bio", bio)
     data.append("email", email)
     data.append("whatsapp", whatsapp)
-    data.append("subject", subject)
-    data.append("cost", cost)
 
-    scheduleItems.forEach(schedule => {
-      data.append("schedule", JSON.stringify(schedule))
-    })
+    if(subject && cost && scheduleItems) {
+      data.append("subject", subject)
+      data.append("cost", cost)
+  
+      
+      data.append("schedule", JSON.stringify(scheduleItems))
+      
+    }
 
     if (selectedFile) {
       data.append("avatar", selectedFile)
     }
-
 
     const response = await api.put("classes", data)
 
@@ -184,7 +202,7 @@ function Profile() {
         title: "Cadastro Salvo!",
         description: "Tudo certo, seu cadastro está na nossa lista de professores. Agora é ó ficar de olho no seu WhatsApp.",
         buttonText: "Lista",
-        buttonPath: "Study"
+        screenPath: "Study"
       })
 
       const data = [{
@@ -287,7 +305,7 @@ function Profile() {
             <Text style={styles.label}>Matéria</Text>
             <Picker
               onChangeValue={setSubject}
-              defaultValue={subject}
+              defaultValue={{label: String(subject), value: String(subject)}}
               items={[
                 { label: "Matemática", value: "Matemática" },
                 { label: "Português", value: "Português" },
@@ -326,8 +344,8 @@ function Profile() {
             <View key={index} style={index == 1? styles.scheduleBlock:null}>
               <Text style={styles.label}>Dia da Semana</Text>
               <Picker
-                onChangeValue={(text) => handleEditScheduleItem(index, "weekDay", String(text))}
-                defaultValue={item.weekDay}
+                onChangeValue={(text) => handleEditScheduleItem(index, "week_day", String(text))}
+                defaultValue={{label: convertNumberDay(Number(item.week_day)), value: item.week_day}}
                 style={{
                   toggleButton: {
                     borderWidth: 1,
@@ -336,13 +354,13 @@ function Profile() {
                   }
                 }}
                 items={[
-                  { label: "Domingo", value: "Domingo" },
-                  { label: "Segunda-Feira", value: "Segunda" },
-                  { label: "Terça-Feira", value: "Terça" },
-                  { label: "Quarta-Feira", value: "Quarta" },
-                  { label: "Quinta-Feira", value: "Quinta" },
-                  { label: "Sexta-Feira", value: "Sexta" },
-                  { label: "Sábado", value: "Sábado" },
+                  { label: "Domingo", value: "0" },
+                  { label: "Segunda-Feira", value: "1" },
+                  { label: "Terça-Feira", value: "2" },
+                  { label: "Quarta-Feira", value: "3" },
+                  { label: "Quinta-Feira", value: "4" },
+                  { label: "Sexta-Feira", value: "5" },
+                  { label: "Sábado", value: "6" },
                 ]} 
               />
 
@@ -351,7 +369,7 @@ function Profile() {
                   <Text style={styles.label}>Das</Text>
                   <Picker
                     onChangeValue={(text) => handleEditScheduleItem(index, "from", String(text))}
-                    defaultValue={item.from}
+                    defaultValue={{label: item.from, value: item.from}}
                     items={[
                       { label: "06:00", value: "6:00" },
                       { label: "07:00", value: "7:00" },
@@ -379,7 +397,7 @@ function Profile() {
                   <Text style={styles.label}>Até</Text>
                   <Picker
                     onChangeValue={(text) => handleEditScheduleItem(index, "to", String(text))}
-                    defaultValue={item.to}
+                    defaultValue={{label: item.to, value: item.to}}
                     items={[
                       { label: "06:00", value: "6:00" },
                       { label: "07:00", value: "7:00" },

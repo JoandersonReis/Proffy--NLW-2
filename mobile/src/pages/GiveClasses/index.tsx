@@ -13,6 +13,7 @@ import api from "../../services/api"
 import styles from "./styles"
 import { Alert } from "react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import convertNumberInWeekDay from "../../utils/convertNumberInWeekDay"
 
 interface ScheduleItemProps {
   week_day: string,
@@ -151,7 +152,7 @@ function GiveClasses() {
             <Text style={styles.label}>Matéria</Text>
             <Picker
               onChangeValue={setSubject}
-              defaultValue={subject}
+              defaultValue={{label: String(subject), value: subject}}
               items={[
                 { label: "Matemática", value: "Matemática" },
                 { label: "Português", value: "Português" },
@@ -191,7 +192,7 @@ function GiveClasses() {
               <Text style={styles.label}>Dia da Semana</Text>
               <Picker
                 onChangeValue={(text) => handleEditScheduleItem(index, "week_day", Number(text))}
-                defaultValue={item.week_day}
+                defaultValue={{label: String(convertNumberInWeekDay(Number(item.week_day))), value: item.week_day}}
                 style={{
                   toggleButton: {
                     borderWidth: 1,
@@ -215,7 +216,7 @@ function GiveClasses() {
                   <Text style={styles.label}>Dás</Text>
                   <Picker
                     onChangeValue={(text) => handleEditScheduleItem(index, "from", String(text))}
-                    defaultValue={item.from}
+                    defaultValue={{label: item.from, value: item.from}}
                     items={[
                       { label: "06:00", value: "6:00" },
                       { label: "07:00", value: "7:00" },
@@ -243,7 +244,7 @@ function GiveClasses() {
                   <Text style={styles.label}>Até</Text>
                   <Picker
                     onChangeValue={(text) => handleEditScheduleItem(index, "to", String(text))}
-                    defaultValue={item.to}
+                    defaultValue={{label: item.to, value: item.to}}
                     items={[
                       { label: "06:00", value: "6:00" },
                       { label: "07:00", value: "7:00" },
