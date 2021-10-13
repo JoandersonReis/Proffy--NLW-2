@@ -25,14 +25,14 @@ interface PickerProps {
   onChangeValue?: (item: string|number|null) => void,
   placeholder?: string,
   placeholderColor?: string,
-  defaultValue: ItemProps,
+  defaultValue?: ItemProps,
   iconColor?: string,
   style?: StylesProps
 }
 
 const Picker: React.FC<PickerProps> = ({ items, onChangeValue, defaultValue, placeholderColor, placeholder, iconColor, style }) => {
   const [ isActiveMenu, setIsActiveMenu ] = useState(false)
-  const [ itemSelected, setItemSelected ] = useState<ItemProps>(defaultValue.label? defaultValue:{label: placeholder? placeholder:"Selecione", value: null})
+  const [ itemSelected, setItemSelected ] = useState<ItemProps>(defaultValue? defaultValue:{label: placeholder? placeholder:"Selecione", value: null})
 
 
   function handleActiveToggleMenu() {
@@ -65,9 +65,9 @@ const Picker: React.FC<PickerProps> = ({ items, onChangeValue, defaultValue, pla
             <RectButton
               key={item.value}
               onPress={() => handleChangeItemSelected(item)}
-              style={[styles.menuItem, style?.itemSelected, item.value == defaultValue.value? styles.itemSelected:null]} 
+              style={[styles.menuItem, style?.itemSelected, item.value == defaultValue?.value? styles.itemSelected:null]} 
             >
-              <Text style={[styles.menuItemText, style?.itemSelectedText, item.value == defaultValue.value? styles.itemSelectedText:null]}>
+              <Text style={[styles.menuItemText, style?.itemSelectedText, item.value == defaultValue?.value? styles.itemSelectedText:null]}>
                 {item.label}
               </Text>
             </RectButton>

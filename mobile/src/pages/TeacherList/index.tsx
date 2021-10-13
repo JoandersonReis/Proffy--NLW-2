@@ -21,7 +21,8 @@ export interface TeachersProps {
   bio: string,
   user_id: number,
   whatsapp: string,
-  avatar: string
+  avatar: string,
+  lastname: string
 }
 
 function TeacherList() {
@@ -106,7 +107,7 @@ function TeacherList() {
             
             <Picker
               onChangeValue={setSubject}
-              defaultValue={subject}
+              defaultValue={{label: String(subject), value: subject}}
               items={[
                 { label: "Matemática", value: "Matemática" },
                 { label: "Português", value: "Português" },
@@ -131,7 +132,7 @@ function TeacherList() {
                   }
                 }}
                 onChangeValue={setWeekDay}
-                defaultValue={weekDay}
+                defaultValue={{label: String(weekDay), value: weekDay}}
                 items={[
                   { label: "Domingo", value: "0" },
                   { label: "Segunda", value: "1" },
@@ -151,7 +152,7 @@ function TeacherList() {
                   }
                 }}
                 onChangeValue={setTime}
-                defaultValue={time}
+                defaultValue={{label: String(time), value:time}}
                 items={[
                   { label: "6 Horas", value: "6:00" },
                   { label: "7 Horas", value: "7:00" },

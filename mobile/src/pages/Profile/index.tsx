@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { useNavigation, useFocusEffect } from "@react-navigation/native"
+import { useNavigation } from "@react-navigation/native"
 import { Image, ImageBackground, Text, TextInput, View } from "react-native"
 import { BorderlessButton, RectButton, ScrollView } from "react-native-gesture-handler"
 import { launchImageLibrary, ImageLibraryOptions, launchCamera, CameraOptions } from "react-native-image-picker"
@@ -52,6 +52,7 @@ function Profile() {
   const [ user_id, setUserId ] = useState("")
   const [ classId, setClassId ] = useState("")
   const [ isProffy, setIsProffy ] = useState(0)
+  const [ countUpdate, setCountUpdate ] = useState(0)
 
   const [ imageUri, setImageUri ] = useState("")
   const [ selectedFile, setSelectedFile ] = useState<Blob>()
@@ -59,26 +60,43 @@ function Profile() {
   const navigation = useNavigation()
 
   async function loadClasses() {
+    const storage = await AsyncStorage.getItem("user")
+    const [data] = JSON.parse(String(storage))
+
+    setUserId(data.id)
+    setIsProffy(data.proffy)
+    setName(data.name)
+    setLastname(data.lastname)
+    setEmail(data.email)
+    setImageUri(data.avatar)
+
     const response = await api.get(`/classes/${user_id}`)
 
-    const data = response.data as ClassesProps
+    const result = response.data as ClassesProps
     
-    setWhatsapp(data.whatsapp)
-    setBio(data.bio)
-    setCost(String(data.cost))
-    setClassId(String(data.id))
-    setSubject(data.subject)
+    setWhatsapp(result.whatsapp)
+    setBio(result.bio)
+    setCost(String(result.cost))
+    setClassId(String(result.id))
+    setSubject(result.subject)
+
+
     
-    if(isProffy) {
-      setSubject(String(response.data.subject))
-      const schedulesData = response.data.schedules.map((schedule: ScheduleProps) => {
+    setSubject(String(result.subject))
+    if(result.schedules) {
+      const schedulesData = result.schedules.map((schedule: ScheduleProps) => {
         return {
           week_day: String(schedule.week_day),
           to: String(convertMinutesInHours(schedule.to)),
           from: String(convertMinutesInHours(schedule.from))
         }
       })
+
       setScheduleItems(schedulesData)
+    }
+
+    if(!result.schedules) {
+      setCountUpdate(countUpdate + 1)
     }
   }
 
@@ -111,7 +129,7 @@ function Profile() {
     includeBase64: true,
     }
 
-    launchCamera(options, ({assets}) => {
+    launchCamera(options, async ({assets}) => {
       if(assets) {
         setImageUri(String(assets[0].uri))
 
@@ -120,31 +138,14 @@ function Profile() {
           lastModified: new Date().getTime(),
         })
 
-        setSelectedFile(blob)  
+        setSelectedFile(blob)
       }
     })
   }
 
-  async function loadStorage() {
-    const storage = await AsyncStorage.getItem("user")
-    const [data] = JSON.parse(String(storage))
-
-    setUserId(data.id)
-    setIsProffy(data.proffy)
-    setName(data.name)
-    setLastname(data.lastname)
-    setEmail(data.email)
-    setImageUri(data.avatar)
-  }
-
   useEffect(() => {
-    let isMounted = true
-
-    loadStorage()
     loadClasses()
-
-    return () => { isMounted = false }
-  }, [])
+  }, [countUpdate])
 
   function handleAddScheduleItem() {
     setScheduleItems([...scheduleItems, {week_day: "", from: "", to: ""}])
@@ -185,10 +186,7 @@ function Profile() {
     if(subject && cost && scheduleItems) {
       data.append("subject", subject)
       data.append("cost", cost)
-  
-      
       data.append("schedule", JSON.stringify(scheduleItems))
-      
     }
 
     if (selectedFile) {

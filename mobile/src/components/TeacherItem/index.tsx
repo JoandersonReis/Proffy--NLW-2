@@ -89,7 +89,7 @@ const TeacherItem: React.FC<TeacherProps> = ({teacher, favorited}) => {
         />
 
         <View style={styles.profileInfo}>
-          <Text style={styles.name}>{teacher.name}</Text>
+          <Text style={styles.name}>{teacher.name} {teacher.lastname}</Text>
           <Text style={styles.subject}>{teacher.subject}</Text>
         </View>
       </View>
