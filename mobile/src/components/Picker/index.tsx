@@ -53,7 +53,7 @@ const Picker: React.FC<PickerProps> = ({ items, onChangeValue, defaultValue, pla
         onPress={handleActiveToggleMenu} 
       >
         <Text style={[styles.toggleButtonText, style?.toggleButtonText, placeholderColor? {color: placeholderColor}:null]}>
-          {itemSelected.label}
+          {itemSelected.label? itemSelected.label:"Selecione"}
         </Text>
         
         <Icon name={isActiveMenu? "chevron-up":"chevron-down"} color={iconColor? iconColor:"#6A6180"} size={15} />

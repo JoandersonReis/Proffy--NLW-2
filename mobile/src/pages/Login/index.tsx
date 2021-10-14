@@ -47,9 +47,12 @@ function Login() {
     if(response.status == 200) {
       if(remember) {
         await AsyncStorage.setItem("user", JSON.stringify([response.data]))
+
+        navigate("Landing")
+      } else {
+        Alert.alert("Selecione Lembrar-me, 'Não lembrar' ainda esta em desenvolvimento")
       }
 
-      navigate("Landing")
     } else if(response.status == 202) {
       Alert.alert(response.data.message)
     } 
